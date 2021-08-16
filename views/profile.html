@@ -313,14 +313,13 @@
                 })               
         
                 document.getElementById("eventForm").addEventListener("submit", (event) => {
-                    event.preventDefault();
+                    events.preventDefault();
                     const checkboxes = document.querySelectorAll('input[name="event"]:checked');
-                    let events = [];
+                    var events = [];
                     checkboxes.forEach((checkbox) => {
                         events.push(checkbox.value);
                     });                
-                    events.forEach((event) => {
-                        
+                    events.forEach((event) => {                        
                         db.collection('Events').doc(event).collection("registeredStudents").doc(user.email).set({
                             uid:user.uid
                         })
@@ -339,8 +338,7 @@
                             console.error("Error writing document: ", error);
                         });
                     })
-                    window.alert("You have successfully registered for the events! See ya there"); 
-                    window.location.assign('/profile')                   
+                    window.alert("You have successfully registered for the events! See ya there");                                   
                 })   
             
             }else{
