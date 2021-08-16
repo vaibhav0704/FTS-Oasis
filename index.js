@@ -4,12 +4,12 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const admin = require("firebase-admin");
 
-// const serviceAccount = require("./serviceAccountKey.json");
+const serviceAccount = require("./serviceAccountKey.json");
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: "https://oasis-81f3e-default-rtdb.asia-southeast1.firebasedatabase.app",
-// });
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://oasis-81f3e-default-rtdb.asia-southeast1.firebasedatabase.app",
+});
 
 // const csrfMiddleware = csrf({ cookie: true });
 
