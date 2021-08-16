@@ -28,7 +28,7 @@
                     </div>
                     <div class="signup-form">
                         <h2 class="form-title">Sign up</h2>
-                        <form method="POST" class="register-form" id="register-form">
+                        <form action="/createUser" method="POST" class="register-form" id="register-form">
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" name="name" id="name" placeholder="Your Name" required/>
@@ -61,7 +61,7 @@
                             </div>
                             <p id="passWarn" class="warning">The passwords do not match</p>
                             <div class="form-group">
-                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <i class="zmdi zmdi-lock-outline"></i>
                                 <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" required/>
                             </div>
                             <div class="form-group">
@@ -69,7 +69,7 @@
                                 <label for="agree-term" class="label-agree-term"><span><span></span></span>We recommend you to save Username and password in your browser.</label>
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                                <button type="submit" class="form-submit" name="button">Register</button>
                             </div>
                         </form>
                         <a href="./login" class="signup-image-link" onclick="signIn()">I am already member</a>
@@ -85,25 +85,10 @@
       <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 
       <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyDBEvY6J88DhlPfUFs27CJdFqMflF9cu80",        
-            authDomain: "oasis-81f3e.firebaseapp.com",        
-            databaseURL: "https://oasis-81f3e-default-rtdb.asia-southeast1.firebasedatabase.app",        
-            projectId: "oasis-81f3e",        
-            storageBucket: "oasis-81f3e.appspot.com",        
-            messagingSenderId: "691297823995",        
-            appId: "1:691297823995:web:10ffd1fc1684882256545e",        
-            measurementId: "G-3ZGYCCQD6R"        
-        };
-        
-          // Initialize Firebase
-          firebase.initializeApp(firebaseConfig);
-          var db = firebase.firestore();
 
         document
           .getElementById("register-form")
           .addEventListener("submit", (event) => {
-            event.preventDefault();
             const name = event.target.name.value;
             const fatherName = event.target.fatherName.value;
             const login = event.target.email.value;
@@ -117,37 +102,7 @@
             if(password === checkPassword && password.length >= 8) {
                 if(phone.length === 10){
                     if(regNo.length === 8 && startReg === '121' ) {
-                        firebase
-                            .auth()
-                            .createUserWithEmailAndPassword(login, password)
-                            .then(() => {
-                                const user = firebase.auth().currentUser;
-                                if(user !== null) {
-                                    const uid = user.uid;
-                                    const email = user.email;
-                                    db.collection('users').doc(uid).collection('details').doc('details').set({
-                                        name,
-                                        fatherName,
-                                        email,
-                                        regNo,
-                                        phone,
-                                        age,
-                                    })
-                                    .then(() => {
-                                        return firebase.auth().signOut();
-                                    })
-                                    .then(() => {
-                                    window.location.assign("/login");
-                                    })
-                                    .catch((error) => {
-                                        console.error("Error writing document: ", error);
-                                    });
-                                }
-                            })
-                            .catch(err => {
-                                window.alert("You have already registered with us, Login instead")
-                                window.location.assign("/login");
-                            })
+                        console.log('done')
                     }else{
                         document.getElementById('registration').style.display = 'block';
                     }
