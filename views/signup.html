@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Firebase Server Auth</title>
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .warning{
+            font-size: 15px;
+            color: red;
+            display: none;
+        }
+    </style>
+  </head>
+  <body>
+    <main>
+        <section class="signup" id="sign-up">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-image">
+                        <figure><img src="/images/signup-image.jpg" alt="sing up image"></figure>
+                    </div>
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" class="register-form" id="register-form">
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="name" id="name" placeholder="Your Name" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="fatherName"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="fatherName" id="fatherName" placeholder="Father's Name" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Email" required/>
+                            </div>
+                            <p id="registration" class="warning">This event is only for freshmen</p>
+                            <div class="form-group">
+                                <label for="regNo"><i class="zmdi zmdi-email"></i></label>
+                                <input type="text" name="regNo" id="regNo" placeholder="Registration No." required/>
+                            </div>
+                            <p id="contactNo" class="warning">Incorrect phone number</p>
+                            <div class="form-group">
+                                <label for="phone"><i class="zmdi zmdi-phone"></i></label>
+                                <input type="text" name="phone" id="phone" placeholder="Phone Number" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="age"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="number" name="age" id="age" placeholder="Age" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="pass" id="pass" placeholder="Password" required/>
+                            </div>
+                            <p id="passWarn" class="warning">The passwords do not match</p>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" required/>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
+                                <label for="agree-term" class="label-agree-term"><span><span></span></span>We recommend you to save Username and password in your browser.</label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                            </div>
+                        </form>
+                        <a href="./login" class="signup-image-link" onclick="signIn()">I am already member</a>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+
+      <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyDBEvY6J88DhlPfUFs27CJdFqMflF9cu80",        
+            authDomain: "oasis-81f3e.firebaseapp.com",        
+            databaseURL: "https://oasis-81f3e-default-rtdb.asia-southeast1.firebasedatabase.app",        
+            projectId: "oasis-81f3e",        
+            storageBucket: "oasis-81f3e.appspot.com",        
+            messagingSenderId: "691297823995",        
+            appId: "1:691297823995:web:10ffd1fc1684882256545e",        
+            measurementId: "G-3ZGYCCQD6R"        
+        };
+        
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+          var db = firebase.firestore();
+
+        document
+          .getElementById("register-form")
+          .addEventListener("submit", (event) => {
+            event.preventDefault();
+            const name = event.target.name.value;
+            const fatherName = event.target.fatherName.value;
+            const login = event.target.email.value;
+            const regNo = event.target.regNo.value;
+            const startReg = regNo.substring(0, 3)
+            const phone = event.target.phone.value;
+            const age = event.target.age.value;
+            const password = event.target.pass.value;
+            const checkPassword = event.target.re_pass.value
+
+            if(password === checkPassword && password.length >= 8) {
+                if(phone.length === 10){
+                    if(regNo.length === 8 && startReg === '121' ) {
+                        firebase
+                            .auth()
+                            .createUserWithEmailAndPassword(login, password)
+                            .then(() => {
+                                const user = firebase.auth().currentUser;
+                                if(user !== null) {
+                                    const uid = user.uid;
+                                    const email = user.email;
+                                    db.collection('users').doc(uid).collection('details').doc('details').set({
+                                        name,
+                                        fatherName,
+                                        email,
+                                        regNo,
+                                        phone,
+                                        age,
+                                    })
+                                    .then(() => {
+                                        return firebase.auth().signOut();
+                                    })
+                                    .then(() => {
+                                    window.location.assign("/login");
+                                    })
+                                    .catch((error) => {
+                                        console.error("Error writing document: ", error);
+                                    });
+                                }
+                            })
+                            .catch(err => {
+                                window.alert("You have already registered with us, Login instead")
+                                window.location.assign("/login");
+                            })
+                    }else{
+                        document.getElementById('registration').style.display = 'block';
+                    }
+                }else {
+                    document.getElementById('contactNo').style.display = 'block';
+                }
+            }else {
+                document.getElementById('passWarn').style.display = 'block';
+            }
+            
+              
+            return false;
+          });
+      </script>
+    </main>
+  </body>
+</html>
+

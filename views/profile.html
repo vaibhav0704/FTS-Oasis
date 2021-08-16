@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile page</title>
+  <!-- Bootstrap CSS File -->
+  <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+  <!-- Libraries CSS Files -->
+  <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
+
+  <link rel="stylesheet" href="/css/style2.css">
+</head>
+  <body>
+    <main> 
+      <button type="button" class="nav-button" onclick="showSidebar()"><i class="fa fa-bars"></i></button>
+      <div class="container">
+          <div class="section-left hide-nav">
+              <button type="button" class="nav-close-button" onclick="hideSidebar()"><i class="fa fa-times"></i></button>
+              <img src="/img/oasis_logo_white.png" alt="logo" class="section-left__logo">
+              <nav>
+                <ul>
+                  <li class="profile-user">
+                      <img class="profile-user__img" id="userProfile" alt="profile">
+                  </li>
+                  <li id="uploadButton" class="choose_file">
+                      <span>Upload Image</span>
+                      <input onchange="uploadImage()" type="file" id="photo" name="profile-img" />
+                  </li>
+                  <li>
+                      <h6 id="userName"></h6>
+                  </li>
+                  <li>
+                      <i class="fa fa-envelope" style="display: inline-block;"></i><h6 id="userEmail"></h6>
+                  </li>
+                  <li>
+                      <i class="fa fa-mobile"></i>
+                      <h6 id="userPhone"></h6>
+                  </li>                  
+                </ul>
+                <button type="button" onclick="signout()">Sign Out</button>
+            </nav>
+          </div>
+          <div class="section-right">
+              <div class="certEvent">
+                  
+                  
+                  <div class="upcoming_events card">
+                      <h3>Register for Events</h3>
+                      <form id="eventForm">
+                          <table>
+                              <tr>
+                                  <th>Select</th>
+                                  <th>Event Name</th>
+                                  <th>Date</th>
+                              </tr>
+                              <tr id="MelodySiesta">
+                                  <td><input class="event" type="checkbox" name="event" value="MelodySiesta"></td>
+                                  <td>Melody Siesta</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="DanceTillDawn">
+                                  <td><input class="event" type="checkbox" name="event" value="DanceTillDawn"></td>
+                                  <td>Dance Till Dawn</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="MrAndMrsFreshmen">
+                                  <td><input class="event" type="checkbox" name="event" value="MrAndMrsFreshmen"></td>
+                                  <td>Mr. & Miss Freshmen</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="StealTheSpotlight">
+                                  <!-- TODO:  -->
+                                  <td><input class="event" type="checkbox" name="event" value="StealTheSpotlight"></td>
+                                  <td>Steal The Spotlight</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="CanvasThrill">
+                                  <td><input class="event" type="checkbox" name="event" value="CanvasThrill"></td>
+                                  <td>Canvas Thrill</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="SpecialTalent">
+                                  <td><input class="event" type="checkbox" name="event" value="SpecialTalent"></td>
+                                  <td>Special Talent</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="ClickSnick">
+                                  <td><input class="event" type="checkbox" name="event" value="ClickSnick"></td>
+                                  <td>Photography: CLICKSNICK</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="VideoEditingCreativeFusion">
+                                  <td><input class="event" type="checkbox" name="event" value="VideoEditingCreativeFusion"></td>
+                                  <td>Video Editing: Creative Fusion</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="AnimationDesk">
+                                  <td><input class="event" type="checkbox" name="event" value="AnimationDesk"></td>
+                                  <td>Animation: Animation Desk</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="ProGraphix">
+                                  <td><input class="event" type="checkbox" name="event" value="ProGraphix"></td>
+                                  <td>Graphic Designing: Pro Graphix</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="BGMITournament">
+                                  <td><input class="event" type="checkbox" name="event" value="BGMITournament"></td>
+                                  <td>BGMI Tournament</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="Valorant">
+                                  <td><input class="event" type="checkbox" name="event" value="Valorant"></td>
+                                  <td>Valorant</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="PoeticTrails">
+                                  <td><input class="event" type="checkbox" name="event" value="PoeticTrails"></td>
+                                  <td>Poetry: Poetic Trails</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="EssayInkYourImagination">
+                                  <td><input class="event" type="checkbox" name="event" value="EssayInkYourImagination"></td>
+                                  <td>Essay: Ink Your Imagination</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="MasterMinds">
+                                  <td><input class="event" type="checkbox" name="event" value="MasterMinds"></td>
+                                  <td>Technical Quiz: Master Minds</td>
+                                  <td>TBD</td>
+                              </tr>
+                          </table>
+                          <button class="submit_event" type="submit">Register</button>
+                      </form>
+                  </div>
+                  
+                  <!-- <div class="certificates card">
+                      <h3>Certificates</h3>
+                      <table>
+                          <tr>
+                              <th>Serial Number</th>
+                              <th>Event</th>
+                              <th>Download</th>
+                          </tr>
+                          <tr>
+                              <td>Serial Number</td>
+                              <td>Event</td>
+                              <td><i class="fa fa-download"></i></td>
+                          </tr>
+                          <tr>
+                              <td>Serial Number</td>
+                              <td>Event</td>
+                              <td><i class="fa fa-download"></i></td>
+                          </tr>
+                          <tr>
+                              <td>Serial Number</td>
+                              <td>Event</td>
+                              <td><i class="fa fa-download"></i></td>
+                          </tr>
+                      </table>
+                  </div> -->
+
+              </div>
+              
+              
+              <div class="oasis_news card">
+                  <h3>Registered Events</h3>
+                  <div>
+                    <ul id="userRegEvents"></ul>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+
+      <script src="/lib/jquery/jquery.min.js"></script>
+      <script src="/lib/jquery/jquery-migrate.min.js"></script>
+      <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="/lib/easing/easing.min.js"></script>
+      <script src="/lib/mobile-nav/mobile-nav.js"></script>
+      <script src="/lib/wow/wow.min.js"></script>
+      <script src="/lib/waypoints/waypoints.min.js"></script>
+      <script src="/lib/counterup/counterup.min.js"></script>
+      <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+      <script src="/lib/isotope/isotope.pkgd.min.js"></script>
+      <script src="/lib/lightbox/js/lightbox.min.js"></script>
+      <!-- Contact Form JavaScript File -->
+      <script src="/contactform/contactform.js"></script>
+
+      <!-- Template Main Javascript File -->
+      <script src="/js/main.js"></script>
+
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+
+      <script>
+        function showProfile() {
+            let icon = document.getElementById("profile-icon__overlay");
+            icon.classList.toggle("show");
+        };
+
+
+        let sideBar = document.querySelector(".section-left");
+        let navBtn = document.getElementsByClassName("nav-button");
+        function showSidebar() {
+            sideBar.classList.remove("hide-nav");
+        };
+        function hideSidebar() {
+            sideBar.classList.add("hide-nav");
+        }
+
+        var firebaseConfig = {
+          apiKey: "AIzaSyDBEvY6J88DhlPfUFs27CJdFqMflF9cu80",        
+          authDomain: "oasis-81f3e.firebaseapp.com",        
+          databaseURL: "https://oasis-81f3e-default-rtdb.asia-southeast1.firebasedatabase.app",        
+          projectId: "oasis-81f3e",        
+          storageBucket: "oasis-81f3e.appspot.com",        
+          messagingSenderId: "691297823995",        
+          appId: "1:691297823995:web:10ffd1fc1684882256545e",        
+          measurementId: "G-3ZGYCCQD6R"        
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        var db = firebase.firestore();
+
+        const signout = () => {
+            firebase.auth().signOut().then(() => {
+                window.location.assign("/");
+            }).catch((error) => {
+                console.log(error)
+            });
+        }
+        
+            const uploadImage = () => {
+                const ref = firebase.storage().ref()
+                const file = document.getElementById("photo").files[0]
+                firebase.auth().onAuthStateChanged((user) => {                
+                    uid = user.uid;
+                    const name = uid;
+                    
+                    const metadata ={
+                        contentType: file.type
+                    }
+                    const task = ref.child(name).put(file, metadata)
+
+                    task
+                    .then(snapshot => snapshot.ref.getDownloadURL())
+                    .then(url => {
+                        db.collection('users').doc(uid).collection('profileImage').doc('imageUrl').set({
+                            imgUrl: url,
+                        })
+                        .then(() => {
+                            window.location.assign("/profile");
+                        })
+                        .catch((error) => {
+                            console.error("Error writing document: ", error);
+                        })
+                    })
+                })                
+            }
+        
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if(user){
+                var uid = user.uid;
+                var docRef = db.collection('users').doc(uid).collection('details').doc('details')
+                docRef.get().then((doc) => {
+                    if (doc.exists) {
+                    document.getElementById('userName').innerHTML = doc.data().name
+                    document.getElementById('userEmail').innerHTML = doc.data().email
+                    document.getElementById('userPhone').innerHTML = doc.data().phone
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No such document!");
+                    }
+                }).catch((error) => {
+                    console.log("Error getting document:", error);
+                });            
+                var eventRef = db.collection('users').doc(uid).collection('eventsRegistered').get()
+                    .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        var elementId = doc.id;
+                        document.getElementById(elementId).style.display = "none";
+                        const list = document.createElement("li");
+                        const node = document.createTextNode(elementId);
+                        list.appendChild(node);
+                        const element = document.getElementById("userRegEvents");
+                        element.appendChild(list);
+                    });
+                });
+                var imageRef = db.collection('users').doc(uid).collection('profileImage').doc('imageUrl')
+                imageRef.get().then((doc) => {
+                    if(doc.exists){
+                        document.getElementById('userProfile').src = doc.data().imgUrl
+                        document.getElementById('uploadButton').style.display = 'none';
+                    } else{
+                        document.getElementById('userProfile').src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+                    }
+                })               
+        
+                document.getElementById("eventForm").addEventListener("submit", (event) => {
+                    event.preventDefault();
+                    const checkboxes = document.querySelectorAll('input[name="event"]:checked');
+                    let events = [];
+                    checkboxes.forEach((checkbox) => {
+                        events.push(checkbox.value);
+                    });                
+                    events.forEach((event) => {
+                        
+                        db.collection('Events').doc(event).collection("registeredStudents").doc(user.email).set({
+                            uid:user.uid
+                        })
+                        .then(() => {
+                            db.collection('users').doc(user.uid).collection('eventsRegistered').doc(event).set({
+                                registered: true
+                            })
+                            .then(() => {
+                                console.log("Done")
+                            })
+                            .catch((error) => {
+                                console.error("Error writing document: ", error);
+                            })
+                        })
+                        .catch((error) => {
+                            console.error("Error writing document: ", error);
+                        });
+                    })
+                    window.alert("You have successfully registered for the events! See ya there");                    
+                })   
+            
+            }else{
+                window.location.assign("/");
+            }
+        })                          
+      </script>
+    </main>
+  </body>
+</html>
