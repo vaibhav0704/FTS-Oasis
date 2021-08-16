@@ -59,7 +59,7 @@ app.post('/createUser', (req, res) => {
             password: password,
           })
           .then((userRecord) => {
-            
+            db.collection("users").
           })
           .catch((error) => {
             console.log('Error creating new user:', error);
