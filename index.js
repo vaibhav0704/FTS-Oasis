@@ -52,8 +52,6 @@ app.post('/createUser', (req, res) => {
   const repass = req.body.re_pass;
 
   const saltRounds = 10;
-  console.log(password)
-
   if(password === repass){
     if(password.length >= 8){
       if(phone.length === 10){
@@ -109,7 +107,6 @@ app.post('/createUser', (req, res) => {
 app.post('/getToken', (req, res) => {
   const email = req.body.email
   const password = req.body.password
-
   admin
   .auth()
   .getUserByEmail(email)
@@ -131,19 +128,22 @@ app.post('/getToken', (req, res) => {
               res.status(401).send('could not authenticate')
             });        
           }else{
+            
             res.status(401).send("Password that you have entered is invalid GO BACK AND LOGIN AGAIN")
           }
         });        
       } else {
+          
           // doc.data() will be undefined in this case
           console.log("No such document!");
       }
     }).catch((error) => {
+      
         res.status(401).send('Email is not registered with us GO BACK AND LOGIN AGAIN OR REGISTER IF YOU HAVEN\'T')
     });    
   })
-  .catch((error) => {
-    res.status(401).send('Email is not registered with us GO BACK AND LOGIN AGAIN OR REGISTER IF YOU HAVEN\'T')
+  .catch((error) => {    
+    res.json({ token: 'noUser' })
   });
 
 })

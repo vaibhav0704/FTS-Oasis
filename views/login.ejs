@@ -92,7 +92,13 @@
               }
             );
             const data = await response.json()
-            return data.token
+            if(data.token === 'noUser'){
+              console.log(data.token)
+              window.alert('You have to register first')
+              window.location.assign('/signup')
+            }else{
+              return data.token
+            }
           }
           getToken().then((token) => {
             firebase.auth().signInWithCustomToken(token)
