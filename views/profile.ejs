@@ -239,6 +239,7 @@
         const user = firebase.auth().currentUser
 
         var uid
+        var email
     
         firebase.auth().onAuthStateChanged(async (user) => {
             
@@ -262,11 +263,29 @@
                     document.getElementById('userEmail').innerHTML = data.userEmail;           
                     document.getElementById('userPhone').innerHTML = data.userPhone;           
                     document.getElementById('userRegNo').innerHTML = data.userRegNo;
+                    document.getElementById('userProfile').src = data.userImgUrl
+                    email = data.userEmail
                     uid = data.userUid;
+                    data.eventList.forEach((eventName) => {
+                        document.getElementById(eventName).style.display = 'none'
+                        const list = document.createElement("li");
+                        const node = document.createTextNode(eventName);
+                        list.appendChild(node);
+                        const element = document.getElementById("userRegEvents");
+                        element.appendChild(list);
+                    })
                 }
                 getUserData();
             }
         })
+
+        const signout = () => {
+            firebase.auth().signOut().then(() => {
+                window.location.assign('/login')
+            }).catch((error) => {
+            console.log(error);
+            });
+        }
         
         const uploadImage = () => {
             const ref = firebase.storage().ref()
@@ -295,10 +314,39 @@
                         }),
                     })
                     const data = await res.json()
+                    window.location.assign('/profile')
                 }
                 setImageUrl()
-            })                
+            })
+            
         }
+
+        document.getElementById('eventForm').addEventListener("submit", (event) => {
+            event.preventDefault()
+            const checkboxes = document.querySelectorAll('input[name="event"]:checked');
+            var events = [];
+            checkboxes.forEach((checkbox) => {
+                events.push(checkbox.value);
+            });
+            const registerEvents = async () => {
+                console.log(email)
+                const resData = await fetch('/registerEvents', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        uid,
+                        events: events,
+                        email,
+                    })                   
+                })
+                
+            }
+            registerEvents()
+            window.location.assign('/profile')
+        })
       </script>
     </main>
   </body>
