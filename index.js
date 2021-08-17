@@ -161,7 +161,8 @@ app.post('/getUser', (req, res) => {
         userName: doc.data().name,
         userEmail: doc.data().email,
         userPhone: doc.data().phone,
-        userRegNo: doc.data().regNo
+        userRegNo: doc.data().regNo,
+        userUid: uid,
       }
       res.json(userInfo)
     }).catch((err) => {
@@ -172,6 +173,13 @@ app.post('/getUser', (req, res) => {
     console.log(err)
   });
 
+})
+
+app.post('/setImageUrl', (req, res) => {
+  const uid = req.body.uid
+  const imgUrl = req.body.imgUrl
+  
+  
 })
 
 app.use(express.static(__dirname + '/public'));

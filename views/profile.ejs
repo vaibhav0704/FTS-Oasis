@@ -205,6 +205,8 @@
 
       <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
       <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-storage.js"></script>
+
     
       <script>
         function showProfile() {
@@ -235,8 +237,11 @@
         firebase.initializeApp(firebaseConfig);
     
         const user = firebase.auth().currentUser
+
+        var uid
     
         firebase.auth().onAuthStateChanged(async (user) => {
+            
             if (!user) {
                 window.location.assign('/login')
             } else {
@@ -257,17 +262,16 @@
                     document.getElementById('userEmail').innerHTML = data.userEmail;           
                     document.getElementById('userPhone').innerHTML = data.userPhone;           
                     document.getElementById('userRegNo').innerHTML = data.userRegNo;
-                    
+                    uid = data.userUid;
                 }
                 getUserData();
             }
         })
-
+        
         const uploadImage = () => {
             const ref = firebase.storage().ref()
-            const file = document.getElementById("photo").files[0]
-                           
-            uid = user.uid;
+            const file = document.getElementById("photo").files[0]                          
+            
             const name = uid;
             
             const metadata ={
@@ -278,15 +282,21 @@
             task
             .then(snapshot => snapshot.ref.getDownloadURL())
             .then(url => {
-                db.collection('users').doc(uid).collection('profileImage').doc('imageUrl').set({
-                    imgUrl: url,
-                })
-                .then(() => {
-                    window.location.assign("/profile");
-                })
-                .catch((error) => {
-                    console.error("Error writing document: ", error);
-                })
+                const setImageUrl = async () => {
+                    const res = await fetch('/setImageUrl', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            uid: uid,
+                            imgUrl: url
+                        }),
+                    })
+                    const data = await res.json()
+                }
+                setImageUrl()
             })                
         }
       </script>
