@@ -258,11 +258,37 @@
                     document.getElementById('userPhone').innerHTML = data.userPhone;           
                     document.getElementById('userRegNo').innerHTML = data.userRegNo;
                     
-                    
                 }
                 getUserData();
             }
         })
+
+        const uploadImage = () => {
+            const ref = firebase.storage().ref()
+            const file = document.getElementById("photo").files[0]
+                           
+            uid = user.uid;
+            const name = uid;
+            
+            const metadata ={
+                contentType: file.type
+            }
+            const task = ref.child(name).put(file, metadata)
+
+            task
+            .then(snapshot => snapshot.ref.getDownloadURL())
+            .then(url => {
+                db.collection('users').doc(uid).collection('profileImage').doc('imageUrl').set({
+                    imgUrl: url,
+                })
+                .then(() => {
+                    window.location.assign("/profile");
+                })
+                .catch((error) => {
+                    console.error("Error writing document: ", error);
+                })
+            })                
+        }
       </script>
     </main>
   </body>
