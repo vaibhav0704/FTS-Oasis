@@ -40,6 +40,10 @@ app.get("/", function (req, res) {
   res.render("login");
 });
 
+app.post('verifyEmail', (req, res) => {
+  
+})
+
 app.post('/createUser', (req, res) => {
   const email = req.body.email;
   const password = req.body.pass;
@@ -67,6 +71,7 @@ app.post('/createUser', (req, res) => {
               .then((userRecord) => {
                 const record = {
                   email,
+                  emailVerified: false,
                   password: hash,
                   name,
                   fatherName,

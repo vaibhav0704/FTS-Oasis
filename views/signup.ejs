@@ -16,6 +16,10 @@
             color: red;
             display: none;
         }
+        .preWarn{
+            font-size: 10px;
+            color: gray;
+        }
     </style>
   </head>
   <body>
@@ -28,7 +32,7 @@
                     </div>
                     <div class="signup-form">
                         <h2 class="form-title">Sign up</h2>
-                        <form action="/createUser" method="POST" class="register-form" id="register-form">
+                        <form class="register-form" id="register-form">
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" name="name" id="name" placeholder="Your Name" required/>
@@ -55,6 +59,7 @@
                                 <label for="age"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="number" name="age" id="age" placeholder="Age" required/>
                             </div>
+                            <p id="charWarn" class="preWarn">Minimum 8 characters</p>
                             <div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="password" name="pass" id="pass" placeholder="Password" required/>
@@ -89,6 +94,7 @@
         document
           .getElementById("register-form")
           .addEventListener("submit", (event) => {
+            event.preventDefault();
             const name = event.target.name.value;
             const fatherName = event.target.fatherName.value;
             const login = event.target.email.value;
@@ -99,18 +105,62 @@
             const password = event.target.pass.value;
             const checkPassword = event.target.re_pass.value
 
-            if(password === checkPassword && password.length >= 8) {
-                if(phone.length === 10){
-                    if(regNo.length === 8 && startReg === '121' ) {
-                        console.log('done')
-                    }else{
-                        document.getElementById('registration').style.display = 'block';
+            if(password.length >= 8) {
+                document.getElementById('charWarn').style.color = 'gray';
+                if(password === checkPassword){
+                    document.getElementById('passWarn').style.display = 'none';
+                    if(phone.length === 10){
+                        document.getElementById('contactNo').style.display = 'none';
+                        if(regNo.length === 8 && startReg === '121' ) {
+                            document.getElementById('registration').style.display = 'none';
+                            const sendVerificationReq = async () => {
+                                const response = await fetch('/verifyEmail', {
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        email: login
+                                    }),
+                                })
+                                const data = await response.json()
+                                if(data.token === 'done') {
+                                    const createUser = async () => {
+                                        const res = await fetch('/createuser', {
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify({
+                                                email: login,
+                                                pass: password,
+                                                name,
+                                                fatherName,
+                                                regNo,
+                                                phone,
+                                                age,
+                                                re_pass: checkPassword
+                                            }),
+                                        })
+                                        const resData = await res.json()
+                                    }
+                                    createUser()
+                                }else{
+                                    window.alert('fake email id recieved')
+                                }
+                            }
+                            sendVerificationReq()                            
+                        }else{
+                            document.getElementById('registration').style.display = 'block';
+                        }
+                    }else {
+                        document.getElementById('contactNo').style.display = 'block';
                     }
-                }else {
-                    document.getElementById('contactNo').style.display = 'block';
+                }else{
+                    document.getElementById('passWarn').style.display = 'block';
                 }
             }else {
-                document.getElementById('passWarn').style.display = 'block';
+                document.getElementById('charWarn').style.color = 'red';
             }
             
               
