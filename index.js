@@ -179,7 +179,7 @@ app.post('/setImageUrl', (req, res) => {
   const uid = req.body.uid
   const imgUrl = req.body.imgUrl
   
-  
+  db.collection('users').doc(uid).collection('profileImage').doc()
 })
 
 app.use(express.static(__dirname + '/public'));
