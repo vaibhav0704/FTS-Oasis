@@ -1,93 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Oasis FTS</title>
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
 
-    <!-- Main css -->
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="icon" href="/img/favicon.png" type="image/x-icon">
-  </head>
-  <body>
-    <main>
-      <section class="sign-in" id="signIn">
-        <div class="container">
-            <div class="signin-content">
-                <div class="signin-image">
-                    <figure><img src="/images/signin-image.jpg" alt="sing up image"></figure>
-                </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oasis FTS</title>
+  <!-- Font Icon -->
+  <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
 
-                <div class="signin-form">
-                    <h2 class="form-title">Sign In</h2>
-                    <form method="POST" class="register-form" id="login-form">
-                        <div class="form-group">
-                            <label><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" name="email" id="email" placeholder="Email" required/>
-                        </div>
-                        <div class="form-group">
-                            <label><i class="zmdi zmdi-lock"></i></label>
-                            <input type="password" name="password" id="password" placeholder="Password" required/>
-                        </div>
-                        <div class="form-group">
-                            <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                            <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
-                        </div>
-                        <div class="form-group form-button">
-                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
-                        </div>
-                    </form>
-                    <a href="#" class="signup-image-link" onclick="signUp()">Create an account</a>
-                </div>
+  <!-- Main css -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
+</head>
 
-            </div>
+<body>
+  <main>
+    <section class="sign-in" id="signIn">
+      <div class="container">
+        <div class="signin-content">
+          <div class="signin-image">
+            <figure><img src="/images/signin-image.jpg" alt="sing up image"></figure>
+          </div>
+
+          <div class="signin-form">
+            <h2 class="form-title">Sign In</h2>
+            <form method="POST" class="register-form" id="login-form">
+              <div class="form-group">
+                <label><i class="zmdi zmdi-account material-icons-name"></i></label>
+                <input type="text" name="email" id="email" placeholder="Email" required />
+              </div>
+              <div class="form-group">
+                <label><i class="zmdi zmdi-lock"></i></label>
+                <input type="password" name="password" id="password" placeholder="Password" required />
+              </div>
+              <div class="form-group">
+                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember
+                  me</label>
+              </div>
+              <div class="form-group form-button">
+                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+              </div>
+            </form>
+            <a href="#" class="signup-image-link" onclick="signUp()">Create an account</a>
+          </div>
+
         </div>
+      </div>
     </section>
 
-    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
 
     <script>
-          const signUp = () => {
-            window.location.assign("/signup")
+      const signUp = () => {
+        window.location.assign("/signup")
+      }
+      var firebaseConfig = {
+        apiKey: "AIzaSyB9pUDdjM9PQ2NoZ0N48MV2tPbAaAjkzN0",
+
+        authDomain: "fts-sample.firebaseapp.com",
+
+        projectId: "fts-sample",
+
+        storageBucket: "fts-sample.appspot.com",
+
+        messagingSenderId: "1061571301851",
+
+        appId: "1:1061571301851:web:f0c4ceb176440525a897fe",
+
+        measurementId: "G-4X4CCBE7XZ"
+
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+          const login = event.target.email.value;
+          const password = event.target.password.value;
+
+          const getToken = async () => {
+            const response = await fetch(
+              '/getToken',
+              {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  email: login,
+                  password: password
+                })
+              }
+            );
+            const data = await response.json()
+            console.log(data.token)
+            return data.token
           }
-          var firebaseConfig = {
-              apiKey: "AIzaSyDBEvY6J88DhlPfUFs27CJdFqMflF9cu80",        
-              authDomain: "oasis-81f3e.firebaseapp.com",        
-              databaseURL: "https://oasis-81f3e-default-rtdb.asia-southeast1.firebasedatabase.app",        
-              projectId: "oasis-81f3e",        
-              storageBucket: "oasis-81f3e.appspot.com",        
-              messagingSenderId: "691297823995",        
-              appId: "1:691297823995:web:10ffd1fc1684882256545e",        
-              measurementId: "G-3ZGYCCQD6R"        
-          };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        document
-          .getElementById("login-form")
-          .addEventListener("submit", (event) => {
-            event.preventDefault();
-            const login = event.target.email.value;
-            const password = event.target.password.value;
-
-            firebase
-              .auth()
-              .signInWithEmailAndPassword(login, password)
-              .then(() => {
-                window.location.assign("/profile");
+          getToken().then((token) => {
+            firebase.auth().signInWithCustomToken(token)
+              .then(async (userCredential) => {
+                // Signed in
+                var user = userCredential.user;
+                window.location.assign('/profile')
+                const token = await user.getIdToken();
+                console.log(token)
               })
-              .catch((err) => {
-                console.log(err);
-                window.alert("you are have not sign up")
-                window.location.assign("/signup")
-              })
-            return false;
+              .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+              });
           });
+
+
+        });
     </script>
-    </main>
-  </body>
+  </main>
+</body>
+
 </html>

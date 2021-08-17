@@ -18,6 +18,7 @@
   <link rel="icon" href="/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="/css/style2.css">
+
 </head>
   <body>
     <main> 
@@ -29,7 +30,7 @@
               <nav>
                 <ul>
                   <li class="profile-user">
-                      <img class="profile-user__img" id="userProfile" alt="profile">
+                      <img class="profile-user__img" src="#" id="userProfile" alt="profile">
                   </li>
                   <li id="uploadButton" class="choose_file">
                       <span>Upload Image</span>
@@ -44,6 +45,9 @@
                   <li>
                       <i class="fa fa-mobile"></i>
                       <h6 id="userPhone"></h6>
+                  </li>                  
+                  <li>
+                      <h6 id="userRegNo"></h6>
                   </li>                  
                 </ul>
                 <button class="btn-sign-out" type="button" onclick="signout()">Sign Out</button>
@@ -199,12 +203,9 @@
       <!-- Template Main Javascript File -->
       <script src="/js/main.js"></script>
 
-      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-
+      <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    
       <script>
         function showProfile() {
             let icon = document.getElementById("profile-icon__overlay");
@@ -219,133 +220,49 @@
         };
         function hideSidebar() {
             sideBar.classList.add("hide-nav");
-        }
-
+        }      
+        
         var firebaseConfig = {
-          apiKey: "AIzaSyDBEvY6J88DhlPfUFs27CJdFqMflF9cu80",        
-          authDomain: "oasis-81f3e.firebaseapp.com",        
-          databaseURL: "https://oasis-81f3e-default-rtdb.asia-southeast1.firebasedatabase.app",        
-          projectId: "oasis-81f3e",        
-          storageBucket: "oasis-81f3e.appspot.com",        
-          messagingSenderId: "691297823995",        
-          appId: "1:691297823995:web:10ffd1fc1684882256545e",        
-          measurementId: "G-3ZGYCCQD6R"        
+            apiKey: "AIzaSyB9pUDdjM9PQ2NoZ0N48MV2tPbAaAjkzN0",
+            authDomain: "fts-sample.firebaseapp.com",    
+            projectId: "fts-sample",    
+            storageBucket: "fts-sample.appspot.com",    
+            messagingSenderId: "1061571301851",    
+            appId: "1:1061571301851:web:f0c4ceb176440525a897fe",    
+            measurementId: "G-4X4CCBE7XZ"            
         };
-        
-        // Initialize Firebase
+    
         firebase.initializeApp(firebaseConfig);
-
-        var db = firebase.firestore();
-
-        const signout = () => {
-            firebase.auth().signOut().then(() => {
-                window.location.assign("/");
-            }).catch((error) => {
-                console.log(error)
-            });
-        }
-        
-            const uploadImage = () => {
-                const ref = firebase.storage().ref()
-                const file = document.getElementById("photo").files[0]
-                firebase.auth().onAuthStateChanged((user) => {                
-                    uid = user.uid;
-                    const name = uid;
+    
+        const user = firebase.auth().currentUser
+    
+        firebase.auth().onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.assign('/login')
+            } else {
+                const token = await user.getIdToken(true)
+                const getUserData = async () => {
+                    const response  = await fetch('/getUser', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            idToken: token
+                        }),
+                    })
+                    const data = await response.json();  
+                    document.getElementById('userName').innerHTML = data.userName;           
+                    document.getElementById('userEmail').innerHTML = data.userEmail;           
+                    document.getElementById('userPhone').innerHTML = data.userPhone;           
+                    document.getElementById('userRegNo').innerHTML = data.userRegNo;
                     
-                    const metadata ={
-                        contentType: file.type
-                    }
-                    const task = ref.child(name).put(file, metadata)
-
-                    task
-                    .then(snapshot => snapshot.ref.getDownloadURL())
-                    .then(url => {
-                        db.collection('users').doc(uid).collection('profileImage').doc('imageUrl').set({
-                            imgUrl: url,
-                        })
-                        .then(() => {
-                            window.location.assign("/profile");
-                        })
-                        .catch((error) => {
-                            console.error("Error writing document: ", error);
-                        })
-                    })
-                })                
+                    
+                }
+                getUserData();
             }
-        
-
-        firebase.auth().onAuthStateChanged((user) => {
-            if(user){
-                var uid = user.uid;
-                var docRef = db.collection('users').doc(uid).collection('details').doc('details')
-                docRef.get().then((doc) => {
-                    if (doc.exists) {
-                    document.getElementById('userName').innerHTML = doc.data().name
-                    document.getElementById('userEmail').innerHTML = doc.data().email
-                    document.getElementById('userPhone').innerHTML = doc.data().phone
-                    } else {
-                        // doc.data() will be undefined in this case
-                        console.log("No such document!");
-                    }
-                }).catch((error) => {
-                    console.log("Error getting document:", error);
-                });            
-                var eventRef = db.collection('users').doc(uid).collection('eventsRegistered').get()
-                    .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        var elementId = doc.id;
-                        document.getElementById(elementId).style.display = "none";
-                        const list = document.createElement("li");
-                        const node = document.createTextNode(elementId);
-                        list.appendChild(node);
-                        const element = document.getElementById("userRegEvents");
-                        element.appendChild(list);
-                    });
-                });
-                var imageRef = db.collection('users').doc(uid).collection('profileImage').doc('imageUrl')
-                imageRef.get().then((doc) => {
-                    if(doc.exists){
-                        document.getElementById('userProfile').src = doc.data().imgUrl
-                        document.getElementById('uploadButton').style.display = 'none';
-                    } else{
-                        document.getElementById('userProfile').src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-                    }
-                })               
-        
-                document.getElementById("eventForm").addEventListener("submit", (event) => {
-                    event.preventDefault();
-                    const checkboxes = document.querySelectorAll('input[name="event"]:checked');
-                    let events = [];
-                    checkboxes.forEach((checkbox) => {
-                        events.push(checkbox.value);
-                    });                
-                    events.forEach((event) => {
-                        
-                        db.collection('Events').doc(event).collection("registeredStudents").doc(user.email).set({
-                            uid:user.uid
-                        })
-                        .then(() => {
-                            db.collection('users').doc(user.uid).collection('eventsRegistered').doc(event).set({
-                                registered: true
-                            })
-                            .then(() => {
-                                console.log("Done")
-                            })
-                            .catch((error) => {
-                                console.error("Error writing document: ", error);
-                            })
-                        })
-                        .catch((error) => {
-                            console.error("Error writing document: ", error);
-                        });
-                    })
-                    window.alert("You have successfully registered for the events! See ya there");                    
-                })   
-            
-            }else{
-                window.location.assign("/");
-            }
-        })                          
+        })
       </script>
     </main>
   </body>
