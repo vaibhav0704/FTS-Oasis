@@ -108,43 +108,28 @@
                         document.getElementById('contactNo').style.display = 'none';
                         if(regNo.length === 8 && startReg === '121' ) {
                             document.getElementById('registration').style.display = 'none';
-                            const sendVerificationReq = async () => {
-                                const response = await fetch('/verifyEmail', {
+                            const createUser = async () => {
+                                const res = await fetch('/createuser', {
+                                    method: 'POST',
                                     headers: {
                                         'Accept': 'application/json',
                                         'Content-Type': 'application/json'
                                     },
                                     body: JSON.stringify({
-                                        email: login
+                                        email: login,
+                                        pass: password,
+                                        name,
+                                        fatherName,
+                                        regNo,
+                                        phone,
+                                        age,
+                                        re_pass: checkPassword
                                     }),
                                 })
-                                const data = await response.json()
-                                if(data.token === 'done') {
-                                    const createUser = async () => {
-                                        const res = await fetch('/createuser', {
-                                            headers: {
-                                                'Accept': 'application/json',
-                                                'Content-Type': 'application/json'
-                                            },
-                                            body: JSON.stringify({
-                                                email: login,
-                                                pass: password,
-                                                name,
-                                                fatherName,
-                                                regNo,
-                                                phone,
-                                                age,
-                                                re_pass: checkPassword
-                                            }),
-                                        })
-                                        const resData = await res.json()
-                                    }
-                                    createUser()
-                                }else{
-                                    window.alert('fake email id recieved')
-                                }
+                                const resData = await res;
                             }
-                            sendVerificationReq()                            
+                            createUser()  
+                            window.location.assign('/login');                        
                         }else{
                             document.getElementById('registration').style.display = 'block';
                         }

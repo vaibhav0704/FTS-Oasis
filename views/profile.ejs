@@ -225,14 +225,13 @@
         }      
         
         var firebaseConfig = {
-            apiKey: "AIzaSyDBEvY6J88DhlPfUFs27CJdFqMflF9cu80",
-            authDomain: "oasis-81f3e.firebaseapp.com",
-            databaseURL: "https://oasis-81f3e-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "oasis-81f3e",
-            storageBucket: "oasis-81f3e.appspot.com",
-            messagingSenderId: "691297823995",
-            appId: "1:691297823995:web:10ffd1fc1684882256545e",
-            measurementId: "G-3ZGYCCQD6R"
+            apiKey: "AIzaSyB9pUDdjM9PQ2NoZ0N48MV2tPbAaAjkzN0",
+            authDomain: "fts-sample.firebaseapp.com",    
+            projectId: "fts-sample",    
+            storageBucket: "fts-sample.appspot.com",    
+            messagingSenderId: "1061571301851",    
+            appId: "1:1061571301851:web:f0c4ceb176440525a897fe",    
+            measurementId: "G-4X4CCBE7XZ"            
         };
     
         firebase.initializeApp(firebaseConfig);
@@ -246,7 +245,17 @@
             
             if (!user) {
                 window.location.assign('/login')
-            } else {
+            }
+            else if(user.emailVerified === false) {
+                firebase.auth().currentUser.sendEmailVerification()
+                .then(() => {
+                    console.log('sent')
+                }).catch((err) => {
+                    console.log(err)
+                });
+                window.location.assign('/verifyEmail')
+            }           
+            else {
                 const token = await user.getIdToken(true)
                 const getUserData = async () => {
                     const response  = await fetch('/getUser', {
@@ -259,7 +268,7 @@
                             idToken: token
                         }),
                     })
-                    const data = await response.json();  
+                    const data = await response.json();
                     document.getElementById('userName').innerHTML = data.userName;           
                     document.getElementById('userEmail').innerHTML = data.userEmail;           
                     document.getElementById('userPhone').innerHTML = data.userPhone;           

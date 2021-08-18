@@ -40,8 +40,8 @@ app.get("/", function (req, res) {
   res.render("login");
 });
 
-app.post('verifyEmail', (req, res) => {
-  
+app.get('/verifyEmail', (req, res) => {
+  res.render('emailPage')
 })
 
 app.post('/createUser', (req, res) => {
@@ -228,19 +228,31 @@ app.post('/registerEvents', (req, res) => {
   const events = req.body.events
   const email = req.body.email
 
-  events.forEach((event) => {
-    db.collection('users').doc(uid).collection('eventsRegistered').doc(event).set({
-      registered: true      
-    })
-    .then(() => {
-      db.collection('Events').doc(event).collection("registeredStudents").doc(email).set({
-        uid:uid
-      })
-    })
-    .catch((error) => {
-        console.error("Error writing document: ", error);
-    })
+  admin
+  .auth()
+  .getUserByEmail(email)
+  .then((userRecord) => {
+    if(userRecord.emailVerified){
+      events.forEach((event) => {
+        db.collection('users').doc(uid).collection('eventsRegistered').doc(event).set({
+          registered: true      
+        })
+        .then(() => {
+          db.collection('Events').doc(event).collection("registeredStudents").doc(email).set({
+            uid:uid
+          })
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        })
+      })    
+    }else {
+      res.status(401).send('You are unauthorized to register for events. Verify your email first')
+    }    
   })
+  .catch((error) => {
+    console.log('Error fetching user data:', error);
+  });
 })
 
 app.use(express.static(__dirname + '/public'));

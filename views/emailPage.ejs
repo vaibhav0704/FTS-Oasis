@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <style>
+        *{
+            margin: 0;
+        }
+        .body{
+            background-color: #F5F5F5 ;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            height: 100vh;
+            width: 100vw;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .container{
+            background-color: white;
+            margin: auto;
+            max-width: 700px;
+            border: 1px solid #D0D0D0;
+            border-radius: 20px;
+            padding: 20px 40px;
+            box-shadow: 5px 10px 18px #888888;
+        }
+        .text {
+            margin-top: 10px;
+            margin-bottom: 10px
+        }
+
+        @media (max-width: 800px) {
+            .body{
+                background-color: #F5F5F5 ;
+                display: flex;
+                align-items: center;
+                text-align: center;
+                height: 100vh;
+                width: 100vw;
+            }
+            .container{
+                background-color: white;
+                margin: auto 10px;
+                border: 1px solid #D0D0D0;
+                border-radius: 20px;
+                padding: 20px 40px;
+                box-shadow: 5px 10px 18px #888888;
+            }
+            .text {
+                margin-top: 10px;
+                margin-bottom: 10px;
+                font-size: 15px;
+            }
+            .header {
+                font-size: 20px
+            }
+        }
+    </style>
+</head>
+<body class="body">
+    <div class="container">
+        <h1 class="header">You have to verify your email before registering for any event</h1>
+        <h3 class="text">A verification email has been sent to the email address. Kindly confirm your email</h3>
+        <a href="https://mail.google.com">
+            <img alt="emailIcon" src="https://img.icons8.com/color/48/000000/gmail-new.png"/>
+        </a>
+            
+    </div>
+
+</body>
+</html>
