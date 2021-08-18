@@ -54,13 +54,18 @@ app.post('/createUser', (req, res) => {
   const phone = req.body.phone;
   const age = req.body.age;
   const repass = req.body.re_pass;
-
+  console.log(1)
   const saltRounds = 10;
   if(password === repass){
+    console.log(2)
     if(password.length >= 8){
+      console.log(3)
       if(phone.length === 10){
+        console.log(4)
         if(regNo.length === 8 && startReg === '121'){
+          console.log(5)
           bcrypt.hash(password, saltRounds, function(err, hash) {
+            console.log(6)
             if(hash) {
               admin
               .auth()
@@ -69,6 +74,7 @@ app.post('/createUser', (req, res) => {
                 password: password,
               })
               .then((userRecord) => {
+                console.log(7)
                 const record = {
                   email,
                   emailVerified: false,
@@ -82,29 +88,37 @@ app.post('/createUser', (req, res) => {
                 }
                 db.collection("users").doc(userRecord.uid).collection('details').doc('details').set(record)
                 .then(() => {
+                  console.log(8)
                   res.status(200).redirect('/login');
                 })
                 .catch((error) => {
+                  console.log(9)
                   console.log("Error writing document: ", error);
                 })
               })
               .catch((error) => {
+                console.log(10)
                 res.status(401).send("You already have an account try login GO BACK")
               });  
             }else{
+              console.log(11)
               console.log(err)
             }  
           });
         }else{
+          console.log(12)
           res.status(401).send("Registration number provided does not belong to freshmen student GO BACK")
         }        
       }else{
+        console.log(13)
         res.status(401).send("incorrect phone number provided GO BACK")
       }
     }else{
+      console.log(14)
       res.status(401).send("Password length should be equal to or greater than 8 characters GO BACK")
     }
   }else{
+    console.log(15)
     res.status(401).send("password does not match the confirmed password GO BACK")
   }
 })
@@ -112,11 +126,11 @@ app.post('/createUser', (req, res) => {
 app.post('/getToken', (req, res) => {
   const email = req.body.email
   const password = req.body.password
-  console.log(1, email, password)
   admin
   .auth()
   .getUserByEmail(email)
   .then((userRecord) => {
+    console.log(userRecord)
     const uid = userRecord.uid;
     var docRef = db.collection('users').doc(uid).collection('details').doc('details')
     docRef.get().then((doc) => {

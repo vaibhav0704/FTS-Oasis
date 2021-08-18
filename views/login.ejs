@@ -93,7 +93,6 @@
             );
             const data = await response.json()
             if(data.token === 'noUser'){
-              console.log(data.token)
               window.alert('You have to register first')
               window.location.assign('/signup')
             }else{
