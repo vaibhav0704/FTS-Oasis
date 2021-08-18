@@ -112,6 +112,7 @@ app.post('/createUser', (req, res) => {
 app.post('/getToken', (req, res) => {
   const email = req.body.email
   const password = req.body.password
+  console.log(1, email, password)
   admin
   .auth()
   .getUserByEmail(email)
