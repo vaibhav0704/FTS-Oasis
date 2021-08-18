@@ -70,7 +70,6 @@ app.post('/createUser', (req, res) => {
               .then((userRecord) => {
                 const record = {
                   email,
-                  emailVerified: false,
                   password: hash,
                   name,
                   fatherName,
