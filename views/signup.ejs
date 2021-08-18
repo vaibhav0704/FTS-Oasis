@@ -126,10 +126,15 @@
                                         re_pass: checkPassword
                                     }),
                                 })
-                                const resData = await res;
+                                const resData = await res.json();
+                                if(resData.token === 'done' ){
+                                    window.location.assign('/login');
+                                }else{
+                                    console.log('error')
+                                }
                             }
                             createUser()  
-                            window.location.assign('/login');                        
+                                                    
                         }else{
                             document.getElementById('registration').style.display = 'block';
                         }
