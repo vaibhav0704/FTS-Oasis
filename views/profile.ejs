@@ -277,6 +277,9 @@
                     document.getElementById('userPhone').innerHTML = data.userPhone;           
                     document.getElementById('userRegNo').innerHTML = data.userRegNo;
                     document.getElementById('userProfile').src = data.userImgUrl
+                    if(data.userImgUrl != 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'){
+                        document.getElementById('uploadButton').style.display = 'none'
+                    }
                     email = data.userEmail
                     uid = data.userUid;
                     data.eventList.forEach((eventName) => {
