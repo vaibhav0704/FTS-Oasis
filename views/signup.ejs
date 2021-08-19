@@ -141,7 +141,8 @@
                                 if(resData.token === 'done' ){
                                     window.location.assign('/login');
                                 }else{
-                                    console.log('error')
+                                    window.alert('you are already Signed Up')
+                                    window.location.assign('/login');
                                 }
                             }
                             createUser()  
