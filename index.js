@@ -37,7 +37,7 @@ app.get("/profile", function (req, res) {
 });
 
 app.get("/", function (req, res) {
-  res.render("login");
+  
 });
 
 app.get('/verifyEmail', (req, res) => {
