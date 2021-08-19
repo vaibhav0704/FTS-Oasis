@@ -39,7 +39,8 @@
                   me</label>
               </div>
               <div class="form-group form-button">
-                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />                
+                <input onclick="redirectHome()" name="signin" id="signin" class="form-submit" value="Home" />      
               </div>
             </form>
             <a href="#" class="signup-image-link" onclick="signUp()">Create an account</a>
@@ -114,6 +115,9 @@
               });
           });
 
+          const redirectHome = () => {
+            window.location.assign('/')
+          }
 
         });
     </script>

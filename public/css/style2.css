@@ -24,7 +24,7 @@ body {
     min-width: 180px;
     max-width: 20vw;
     height: 100vh;
-    background-color:#004a99;
+    background-color:#4A154B;
     border-radius: 0 1em 1em 0;
     -webkit-border-radius: 0 1em 1em 0;
     -moz-border-radius: 0 1em 1em 0;
@@ -32,7 +32,7 @@ body {
     -o-border-radius: 0 1em 1em 0;
     position: fixed;
     color: white;
-    box-shadow: 2px 0px 20px #0566ce;
+    box-shadow: 2px 0px 20px #4A154B;
     transform: translateX(0);
     -webkit-transform: translateX(0);
     -moz-transform: translateX(0);
@@ -74,7 +74,7 @@ body {
     -o-border-radius: 1em;
 }
 .section-left nav ul li a:hover {
-    background: #007bff;
+    background: #4A154B;
     color: #fff;
 }
 h6 {
@@ -204,7 +204,7 @@ table, tr {
     color: red;
 }
 .certificates table th {
-    background-color: #004a99;
+    background-color: #4A154B;
     color: white;
 }
 .card {
@@ -228,7 +228,7 @@ table, tr {
     border: none;
 }
 .upcoming_events table th {
-    background-color: #004a99;
+    background-color: #4A154B;
     color: white;
 }
 .upcoming_events a {
@@ -238,7 +238,7 @@ table, tr {
     min-width: 30%;
     display: block;
     margin: 1em auto 0;
-    background-color: #004a99;
+    background-color: #4A154B;
     border: 0;
     border-radius: 20px;
     padding: 8px 30px;
@@ -248,7 +248,7 @@ table, tr {
 }
 
 .submit_event:hover,.submit_event:focus {
-    background-color: #007bff;
+    background-color: #c051e6;
 }
 
 /* button.submit_event:disabled,
@@ -270,7 +270,7 @@ input[type="checkbox"]:hover::before {
     content: '';
     width: 100%;
     height: 100%;
-    background-color: #007bff;
+    background-color: #4A154B;
 }
 input[type="checkbox"]:checked::before {
     display: none;
