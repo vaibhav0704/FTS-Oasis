@@ -37,7 +37,7 @@ app.get("/profile", function (req, res) {
 });
 
 app.get("/", function (req, res) {
-  
+  res.render("landing");
 });
 
 app.get('/verifyEmail', (req, res) => {
@@ -54,6 +54,8 @@ app.post('/createUser', (req, res) => {
   const phone = req.body.phone;
   const age = req.body.age;
   const repass = req.body.re_pass;
+  const department = req.body.department;
+  const course = req.body.course
   const saltRounds = 10;
   if(password === repass){
     if(password.length >= 8){
@@ -75,6 +77,8 @@ app.post('/createUser', (req, res) => {
                   fatherName,
                   regNo,
                   phone,
+                  department,
+                  course,
                   age,
                   role: 'USER'
                 }

@@ -33,7 +33,7 @@
                       <img class="profile-user__img" src="#" id="userProfile" alt="profile">
                   </li>
                   <li id="uploadButton" class="choose_file">
-                      <span>Upload Image</span>
+                      <span id="photoText">Upload Image</span>
                       <input onchange="uploadImage()" type="file" id="photo" name="profile-img" />
                   </li>
                   <li>
@@ -145,6 +145,11 @@
                               <tr id="WebOMania">
                                   <td><input class="event" type="checkbox" name="event" value="WebOMania"></td>
                                   <td>Coding: Web-O-Mania</td>
+                                  <td>TBD</td>
+                              </tr>
+                              <tr id="HackTheNoon">
+                                  <td><input class="event" type="checkbox" name="event" value="HackTheNoon"></td>
+                                  <td>Hack-The-Noon: Ethical Hacking & Cybersecurity Workshop and Quiz</td>
                                   <td>TBD</td>
                               </tr>
                           </table>
@@ -283,7 +288,7 @@
                     document.getElementById('userRegNo').innerHTML = data.userRegNo;
                     document.getElementById('userProfile').src = data.userImgUrl
                     if(data.userImgUrl != 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'){
-                        document.getElementById('uploadButton').style.display = 'none'
+                        document.getElementById('photoText').innerHTML = 'Change Photo'
                     }
                     email = data.userEmail
                     uid = data.userUid;
@@ -309,6 +314,9 @@
         }
         
         const uploadImage = () => {
+
+            window.alert('Uploading!')
+
             const ref = firebase.storage().ref()
             const file = document.getElementById("photo").files[0]                          
             
