@@ -24,6 +24,8 @@
         .container{
             background-color: white;
             margin: auto;
+            text-align: center;
+            align-items: center;
             max-width: 700px;
             border: 1px solid #D0D0D0;
             border-radius: 20px;
@@ -33,6 +35,23 @@
         .text {
             margin-top: 10px;
             margin-bottom: 10px
+        }
+
+        .button {
+            background-color: #004a99;
+            color: white;
+            padding: 10px 4px;
+            width: 30%;
+            margin: 6px auto;
+            cursor: pointer;
+            border-radius: 20px;
+            transition-duration: 500ms;
+        }
+
+        .button:hover {
+            border: 1px solid #004a99;
+            background-color: #F5F5F5;
+            color: #004a99;
         }
 
         @media (max-width: 800px) {
@@ -60,6 +79,10 @@
             .header {
                 font-size: 20px
             }
+
+            .button {
+                width: 80%;
+            }
         }
     </style>
 </head>
@@ -70,6 +93,17 @@
         <a href="https://mail.google.com">
             <img alt="emailIcon" src="https://img.icons8.com/color/48/000000/gmail-new.png"/>
         </a>
+        
+        <div class="button" onclick="redirectUser()">
+            Login Here after verifying
+        </div>
+    
+       <script>
+           const redirectUser = () => {
+               window.location.assign('/login')
+           }
+           
+       </script>
             
     </div>
 
