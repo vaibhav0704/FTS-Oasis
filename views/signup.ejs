@@ -59,6 +59,16 @@
                                 <label for="age"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="number" name="age" id="age" placeholder="Age" required/>
                             </div>
+                            <p class="preWarn">Example: B.Tech, BBA, MBA</p>
+                            <div class="form-group">
+                                <label for="department"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="text" name="department" id="department" placeholder="Department" required/>
+                            </div>
+                            <p class="preWarn">Example: CSE, ECE, HOSPITALITY</p>
+                            <div class="form-group">
+                                <label for="course"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="text" name="course" id="course" placeholder="Course" required/>
+                            </div>
                             <p id="charWarn" class="preWarn">Minimum 8 characters</p>
                             <div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
@@ -78,7 +88,6 @@
                             </div>
                         </form>
                         <a href="./login" class="signup-image-link" onclick="signIn()">I am already member</a>
-
                     </div>
                 </div>
             </div>
@@ -122,6 +131,8 @@
                                         fatherName,
                                         regNo,
                                         phone,
+                                        department,
+                                        course,
                                         age,
                                         re_pass: checkPassword
                                     }),
