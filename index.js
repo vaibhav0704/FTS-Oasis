@@ -153,11 +153,13 @@ app.post('/getToken', (req, res) => {
 
 app.post('/getUser', (req, res) => {
   const idToken = req.body.idToken
+  console.log(1)
   let userInfo = {}
   admin
   .auth()
   .verifyIdToken(idToken)
   .then((decodedToken) => {
+    console.log(2)
     const uid = decodedToken.uid;
     const docReference = db.collection('users').doc(uid).collection('details').doc('details')
     docReference.get().then((doc) => {
@@ -171,29 +173,32 @@ app.post('/getUser', (req, res) => {
           userImgUrl: '',
           eventList: []
         }
-
+        console.log(3)
         db.collection('users').doc(uid).collection('profileImage').doc('imageUrl').get()
         .then((doc) => {
+          console.log(4)
           if(doc.exists) {
             userInfo.userImgUrl = doc.data().imgUrl
-
+            console.log(5)
             db.collection('users').doc(uid).collection('eventsRegistered').get()
                 .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    userInfo.eventList.push(doc.id)
+                    userInfo.eventList.push({"name": doc.id, "bool": doc.data(doc.id).link})
+                    console.log(doc.id)
 
                 });
               res.json(userInfo)
             });
                 
           }else {
+            console.log(6)
             userInfo.userImgUrl = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
             db.collection('users').doc(uid).collection('eventsRegistered').get()
                 .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    userInfo.eventList.push(doc.id)
-                    
+                  userInfo.eventList.push({"name": doc.id, "bool": doc.data(doc.id).link})
                 });
+                console.log(userInfo)
               res.json(userInfo)
             });           
           }         
@@ -233,11 +238,16 @@ app.post('/registerEvents', (req, res) => {
     if(userRecord.emailVerified){
       events.forEach((event) => {
         db.collection('users').doc(uid).collection('eventsRegistered').doc(event).set({
-          registered: true      
+          registered: true,
+          link:false      
         })
         .then(() => {
           db.collection('Events').doc(event).collection("registeredStudents").doc(email).set({
-            uid:uid
+            uid:uid,
+            link: ""
+          })
+          .then(() => {
+            res.json({ token: 'done' })
           })
         })
         .catch((error) => {
@@ -251,6 +261,40 @@ app.post('/registerEvents', (req, res) => {
   .catch((error) => {
     console.log('Error fetching user data:', error);
   });
+})
+
+app.post('/uploadLinks', (req, res) => {
+  const link = req.body.link;
+  const event = req.body.event;
+  const email = req.body.email
+  const uid = req.body.uid
+
+  admin
+  .auth()
+  .getUserByEmail(email)
+  .then((userRecord) => {
+    if(userRecord.emailVerified) {
+      db.collection('Events').doc(event).collection("registeredStudents").doc(email).set({
+        uid:uid,
+        link:link
+      })
+      .then(() => {
+        db.collection('users').doc(uid).collection("registeredUsers").doc(email).set({
+          uid: uid,
+          link: true
+        })
+        .then(() => {
+          res.json({ token: 'done' })
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+  })
+  .catch(err => {
+    res.status(401).send('You are unauthorized to register for events. Verify your email first');
+  })
 })
 
 app.use(express.static(__dirname + '/public'));
