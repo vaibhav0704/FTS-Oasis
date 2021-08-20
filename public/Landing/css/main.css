@@ -701,6 +701,23 @@ button:focus {
 }
 
 /*======================
+ OUR SPONSORS
+ =======================*/
+ #sponsors .row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2em;
+}
+#sponsors .row div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#sponsors img {
+  width: 150px;
+}
+
+/*======================
  OUR PARTNERS 
  =======================*/
 #partners .row {
