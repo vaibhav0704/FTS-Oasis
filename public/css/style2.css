@@ -345,5 +345,8 @@ input[type="checkbox"]:checked::before {
     .nav-button, .nav-close-button {
         display: block;
     }
+    .btn-sign-out {
+        margin-bottom: 40px;
+    }
 }
 
