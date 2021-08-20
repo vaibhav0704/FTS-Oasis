@@ -718,19 +718,19 @@ button:focus {
 .item-boxes:hover .icon i {
   color: #fff;
 }
-.row-last-item {
-  display: flex;
-  justify-content: center;
-  /* align-items: center; */
-}
 
 /*======================
- OUR SPONSORS
+OUR SPONSORS
  =======================*/
  #sponsors .row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 2em;
+}
+.row-last-item {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
 }
 #sponsors .row div {
   display: flex;
@@ -738,7 +738,8 @@ button:focus {
   align-items: center;
 }
 #sponsors img {
-  width: 150px;
+  max-width: 250px;
+  margin: 1.2em 0;
 }
 
 /*======================
