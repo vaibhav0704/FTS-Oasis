@@ -18,7 +18,7 @@ body {
     min-width: 100vw;
     min-height: 100vh;
     padding: 0;
-    background-color: rgb(235, 235, 235);
+    background-color: white;
 }
 .section-left {
     min-width: 180px;
@@ -207,6 +207,7 @@ table, tr {
     background-color: #4A154B;
     color: white;
 }
+
 .card {
     flex-basis: 100%;
     border-radius: 1em;
@@ -217,9 +218,19 @@ table, tr {
     background-color: white;
     height: max-content;
     padding: 2em;
+    border: none;
 }
+
 .upcoming_events {
     margin-right: 1em;
+}
+
+.upcoming_events tr {
+    border: 2px solid transparent;
+    width: 100%;
+    background:rgba(0, 255, 255, 0.247);
+    border-radius: 20px;
+    margin: 1em 0 !important;
 }
 
 .upcoming_events td,.upcoming_events th {
@@ -304,6 +315,84 @@ input[type="checkbox"]:checked::before {
 .nav-close-button {
     display: none;
 }
+
+
+
+/*======================== 
+    User-Table 
+==========================*/
+
+.user-event-name {
+    font-size: 1.4rem;
+    text-align: center;
+    text-decoration: underline;
+}
+.responsive-table {
+    margin-top: 1em;
+}
+.responsive-table li {
+    border-radius: 3px;
+    padding: 1em;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5em;
+    text-align: center;
+  }
+.responsive-table .table-header {
+    background-color: #004a99;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+.responsive-table .table-header .col-2,.responsive-table .table-header .col-4, .responsive-table .table-header .col-5    {
+    color: #fff;
+}
+.responsive-table .table-row {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+}
+.table-row i:hover {
+  color: red;
+}
+.responsive-table .col-1 {
+    flex-basis: 10%;
+}
+.responsive-table .col-2 {
+    flex-basis: 20%;
+    text-transform: uppercase;
+    color: #004a99;
+}
+.responsive-table .col-3 {
+    flex-basis: 20%;
+}
+.responsive-table .col-4 {
+    flex-basis: 15%;
+    color: #004a99;
+}
+.responsive-table .col-5 {
+    flex-basis: 15%;
+    color: #004a99;
+    font-weight: bold;
+}
+.responsive-table .col-6 {
+    flex-basis: 10%;
+}
+.responsive-table .col-7 {
+    flex-basis: 10%;
+}
+@media screen and (max-width: 600px) {
+    .responsive-table .col {
+      flex-basis: 100%;
+    }
+    /* hide col- 3, 6 */
+    .responsive-table .col-3 , .responsive-table .col-6 {
+        display: none;
+    }
+}
+
 
 @media only screen and (max-width: 800px)
 {

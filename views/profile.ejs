@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -57,7 +57,7 @@
               <div class="certEvent">
                   
                   
-                  <div class="upcoming_events card">
+                  <!-- <div class="upcoming_events card">
                       <h3>Register for Events</h3>
                       <form id="eventForm">
                           <table>
@@ -82,7 +82,6 @@
                                   <td>TBD</td>
                               </tr>
                               <tr id="StealTheSpotlight">
-                                  <!-- TODO:  -->
                                   <td><input class="event" type="checkbox" name="event" value="StealTheSpotlight"></td>
                                   <td>Steal The Spotlight</td>
                                   <td>TBD</td>
@@ -155,7 +154,76 @@
                           </table>
                           <button class="submit_event" type="submit">Register</button>
                       </form>
-                  </div>
+                  </div> -->
+
+                  <ul class="responsive-table">
+                    <li class="table-header">
+                      <div class="col col-1">Select</div>
+                      <div class="col col-2">Event Name</div>
+                      <div class="col col-3">Date</div>
+                      <!-- <div class="col col-4">Email Id</div>
+                      <div class="col col-5">Phone</div>
+                      <div class="col col-6">Age</div>
+                      <div class="col col-7">File</div> -->
+                    </li>
+                    <li class="table-row">
+                      <div class="col col-1" ><input class="event" type="checkbox" name="event" value="MelodySiesta"></div>
+                      <div class="col col-2" >Melody Siesta</div>
+                      <div class="col col-3" >TBD</div>
+                      <!-- <div class="col col-4" >email@gmail.com</div>
+                      <div class="col col-5" >9123412321</div>
+                      <div class="col col-6" >21</div>
+                      <div class="col col-7" ><a href="#" target="_blank"><i class="fa fa-download"></i></a></div> -->
+                    </li>
+                    <li class="table-row">
+                      <div class="col col-1" ><input class="event" type="checkbox" name="event" value="DanceTillDawn"></div>
+                      <div class="col col-2" >Dance Till Dawn</div>
+                      <div class="col col-3" >TBD</div>
+                      <!-- <div class="col col-4" >email@gmail.com</div>
+                      <div class="col col-5" >9876543210</div>
+                      <div class="col col-6" >21</div>
+                      <div class="col col-7" ><a href="#" target="_blank"><i class="fa fa-download"></i></a></div> -->
+                    </li>
+                    <li class="table-row">
+                      <div class="col col-1" ><input class="event" type="checkbox" name="event" value="MrAndMrsFreshmen"></div>
+                      <div class="col col-2" >Mr. & Miss Freshmen</div>
+                      <div class="col col-3" >TBD</div>
+                      <!-- <div class="col col-4" >email@gmail.com</div>
+                      <div class="col col-5" >1234567890</div>
+                      <div class="col col-6" >21</div>
+                      <div class="col col-7" ><a href="#" target="_blank"><i class="fa fa-download"></i></a></div> -->
+                    </li>
+                    <li class="table-row">
+                      <div class="col col-1" ><input class="event" type="checkbox" name="event" value="StealTheSpotlight"></div>
+                      <div class="col col-2" >Steal The Spotlight</div>
+                      <div class="col col-3" >TBD</div>
+                      <!-- <div class="col col-4" >email@gmail.com</div>
+                      <div class="col col-5" >8765432109</div>
+                      <div class="col col-6" >21</div>
+                      <div class="col col-7" ><a href="#" target="_blank"><i class="fa fa-download"></i></a></div> -->
+                    </li>
+                    <li class="table-row">
+                      <div class="col col-1" ><input class="event" type="checkbox" name="event" value="CanvasThrill"></div>
+                      <div class="col col-2" >Canvas Thrill</div>
+                      <div class="col col-3" >TBD</div>
+                      <!-- <div class="col col-4" >email@gmail.com</div>
+                      <div class="col col-5" >5647382910</div>
+                      <div class="col col-6" >21</div>
+                      <div class="col col-7" ><a href="#" target="_blank"><i class="fa fa-download"></i></a></div> -->
+                    </li>
+                    <li class="table-row">
+                      <div class="col col-1" >42235</div>
+                      <div class="col col-2" >John Doe</div>
+                      <div class="col col-3" >TBD</div>
+                      <!-- <div class="col col-4" >email@gmail.com</div>
+                      <div class="col col-5" >2121212121</div>
+                      <div class="col col-6" >21</div>
+                      <div class="col col-7" ><a href="#" target="_blank"><i class="fa fa-download"></i></a></div> -->
+                    </li>
+                  </ul>
+
+
+
                   
                   <!-- <div class="certificates card">
                       <h3>Certificates</h3>
@@ -295,8 +363,21 @@
                     data.eventList.forEach((eventName) => {
                         document.getElementById(eventName).style.display = 'none'
                         const list = document.createElement("li");
+                        const nameCont = document.createElement("div");
+                        const uplCont = document.createElement("div");
+                        const inputContainer = document.createElement("div");
+                        const input = document.createElement("input");
+                        const uplButton = document.createElement("div");
+                        const upload = document.createTextNode("upload")
                         const node = document.createTextNode(eventName);
-                        list.appendChild(node);
+                        
+                        nameCont.appendChild(node);
+                        upload.appendchild(upload);
+                        inputContainer.appendChild(input);
+                        inputContainer.appendChild(uplButton);
+                        uplCont.appendChild(inputContainer);
+                        list.appendChild(nameCont);
+                        list.appendChild(uplCont);
                         const element = document.getElementById("userRegEvents");
                         element.appendChild(list);
                     })
