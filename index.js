@@ -23,6 +23,10 @@ app.use(express.urlencoded({
 
 app.use(bodyParser.json());
 
+app.get("/", function (req, res) {
+  res.render("landing");
+});
+
 app.get("/login", function (req, res) {
   res.render("login");
 });
@@ -34,10 +38,6 @@ app.get("/signup", function (req, res) {
 app.get("/profile", function (req, res) {
 
   res.render("profile");
-});
-
-app.get("/", function (req, res) {
-  res.render("landing");
 });
 
 app.get('/verifyEmail', (req, res) => {
