@@ -48,11 +48,9 @@ app.post('/createUser', (req, res) => {
   const email = req.body.email;
   const password = req.body.pass;
   const name = req.body.name;
-  const fatherName = req.body.fatherName;
   const regNo = req.body.regNo;
   const startReg = regNo.substring(0, 3)
   const phone = req.body.phone;
-  const age = req.body.age;
   const repass = req.body.re_pass;
   const department = req.body.department;
   const course = req.body.course
@@ -74,12 +72,10 @@ app.post('/createUser', (req, res) => {
                   email,
                   password: hash,
                   name,
-                  fatherName,
                   regNo,
                   phone,
                   department,
                   course,
-                  age,
                   role: 'USER'
                 }
                 db.collection("users").doc(userRecord.uid).collection('details').doc('details').set(record)

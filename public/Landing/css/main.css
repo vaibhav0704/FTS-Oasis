@@ -153,6 +153,19 @@ img {
   color: #fff;
 }
 
+.registerButton {
+  background-color: #4A154B;
+  border: 1px solid transparent;
+  height: 20px;
+  width: 40px;
+  transition-duration: 500ms;
+  border-radius: 20px;
+}
+
+.registerButton .registerText {
+  color: white;
+}
+
 .btn-common {
   border: 1px solid var(--primary-color);
   background: var(--primary-color);
@@ -432,12 +445,23 @@ button:focus {
   text-transform: uppercase;
 
 }
-#hero-area .contents h4 {
-  text-align: center;
-  display: inline-block;
-  margin: 0 1em 0;
-}
 
+#hero-area .btn-register {
+  text-decoration: none;
+  font-size: 2rem;
+  color: white;
+  border: 2px solid white;
+  border-radius: 1em;
+  padding: 0.4em 0.6em;
+  position: relative;
+  top: 100px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+#hero-area .btn-register:hover {
+  background-color: var(--primary-color);
+  border-color: transparent;
+}
 /* #hero-area .contents p {
   font-size: 14px;
   color: #fff;

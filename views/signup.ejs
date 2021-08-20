@@ -31,15 +31,11 @@
                         <figure><img src="/images/signup-image.jpg" alt="sing up image"></figure>
                     </div>
                     <div class="signup-form">
-                        <h2 class="form-title">Sign up</h2>
+                        <h2 class="form-title">Register</h2>
                         <form class="register-form" id="register-form">
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" name="name" id="name" placeholder="Your Name" required/>
-                            </div>
-                            <div class="form-group">
-                                <label for="fatherName"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="fatherName" id="fatherName" placeholder="Father's Name" required/>
                             </div>
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
@@ -54,10 +50,6 @@
                             <div class="form-group">
                                 <label for="phone"><i class="zmdi zmdi-phone"></i></label>
                                 <input type="text" name="phone" id="phone" placeholder="Phone Number" required/>
-                            </div>
-                            <div class="form-group">
-                                <label for="age"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="number" name="age" id="age" placeholder="Age" required/>
                             </div>
                             <p class="preWarn">Example: B.Tech, BBA, MBA</p>
                             <div class="form-group">
@@ -96,12 +88,10 @@
           .addEventListener("submit", (event) => {
             event.preventDefault();
             const name = event.target.name.value;
-            const fatherName = event.target.fatherName.value;
             const login = event.target.email.value;
             const regNo = event.target.regNo.value;
             const startReg = regNo.substring(0, 3)
             const phone = event.target.phone.value;
-            const age = event.target.age.value;
             const password = event.target.pass.value;
             const checkPassword = event.target.re_pass.value
 
@@ -124,12 +114,10 @@
                                         email: login,
                                         pass: password,
                                         name,
-                                        fatherName,
                                         regNo,
                                         phone,
                                         department,
                                         course,
-                                        age,
                                         re_pass: checkPassword
                                     }),
                                 })
