@@ -233,7 +233,8 @@ app.post('/registerEvents', (req, res) => {
     if(userRecord.emailVerified){
       events.forEach((event) => {
         db.collection('users').doc(uid).collection('eventsRegistered').doc(event).set({
-          registered: true      
+          registered: true  ,
+          link:false    
         })
         .then(() => {
           db.collection('Events').doc(event).collection("registeredStudents").doc(email).set({
