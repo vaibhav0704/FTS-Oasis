@@ -237,7 +237,14 @@ app.post('/registerEvents', (req, res) => {
         })
         .then(() => {
           db.collection('Events').doc(event).collection("registeredStudents").doc(email).set({
-            uid:uid
+            uid:uid,
+            link: ''
+          })
+          .then(() => {
+            res.json({ token: 'done' })
+          })
+          .catch(err => {
+            console.log(err)
           })
         })
         .catch((error) => {

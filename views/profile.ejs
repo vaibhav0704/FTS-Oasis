@@ -371,11 +371,13 @@
                         email,
                     })                   
                 })
-                
+                const data = await resData.json()
+                if(data.token === 'done'){
+                    window.alert('Yay you have successfully registered for the events! See ya there!')
+                    window.location.assign('/profile')
+                }
             }
             registerEvents()
-            window.alert('Yay you have successfully registered for the events! See ya there!')
-            window.location.assign('/profile')
         })
       </script>
     </main>
