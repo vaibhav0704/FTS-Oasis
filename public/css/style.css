@@ -289,6 +289,7 @@ figure {
   text-align: center; }
 
 .form-submit {
+  line-height: 1 !important;
   display: inline-block;
   background: #6dabe4;
   color: #fff;
@@ -464,6 +465,9 @@ label.valid {
   -webkit-transform: translateY(0);
   -o-transform: translateY(0);
   -ms-transform: translateY(0); }
+
+.label-agree-term:hover {
+  text-decoration: underline; }
 
 .material-icons-name {
   font-size: 18px; }
