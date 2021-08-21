@@ -68,7 +68,7 @@
                             </div>
                             <p id="passWarn" class="warning">The passwords do not match</p>
                             <div class="form-group">
-                                <i class="zmdi zmdi-lock-outline"></i>
+                                <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
                                 <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" required/>
                             </div>
                             <div class="form-group form-button">
@@ -93,6 +93,8 @@
             const startReg = regNo.substring(0, 3)
             const phone = event.target.phone.value;
             const password = event.target.pass.value;
+            const department = event.target.department.value;
+            const course = event.target.course.value;
             const checkPassword = event.target.re_pass.value
 
             if(password.length >= 8) {

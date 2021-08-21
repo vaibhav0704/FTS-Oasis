@@ -171,16 +171,14 @@ app.post('/getUser', (req, res) => {
           userImgUrl: '',
           eventList: []
         }
-
         db.collection('users').doc(uid).collection('profileImage').doc('imageUrl').get()
         .then((doc) => {
           if(doc.exists) {
             userInfo.userImgUrl = doc.data().imgUrl
-
             db.collection('users').doc(uid).collection('eventsRegistered').get()
                 .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    userInfo.eventList.push(doc.id)
+                    userInfo.eventList.push({"name": doc.id, "bool": doc.data(doc.id).link})
 
                 });
               res.json(userInfo)
@@ -191,8 +189,7 @@ app.post('/getUser', (req, res) => {
             db.collection('users').doc(uid).collection('eventsRegistered').get()
                 .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    userInfo.eventList.push(doc.id)
-                    
+                  userInfo.eventList.push({"name": doc.id, "bool": doc.data(doc.id).link})
                 });
               res.json(userInfo)
             });           
@@ -233,16 +230,16 @@ app.post('/registerEvents', (req, res) => {
     if(userRecord.emailVerified){
       events.forEach((event) => {
         db.collection('users').doc(uid).collection('eventsRegistered').doc(event).set({
-          registered: true  ,
-          link:false    
+          registered: true,
+          link:false      
         })
         .then(() => {
           db.collection('Events').doc(event).collection("registeredStudents").doc(email).set({
             uid:uid,
-            link: ''
+            link: ""
           })
           .then(() => {
-            res.json({ token: 'done' })
+            res.status(200)
           })
           .catch(err => {
             console.log(err)
@@ -259,6 +256,40 @@ app.post('/registerEvents', (req, res) => {
   .catch((error) => {
     console.log('Error fetching user data:', error);
   });
+})
+
+app.post('/uploadLinks', (req, res) => {
+  const link = req.body.link;
+  const event = req.body.event;
+  const email = req.body.email
+  const uid = req.body.uid
+
+  admin
+  .auth()
+  .getUserByEmail(email)
+  .then((userRecord) => {
+    if(userRecord.emailVerified) {
+      db.collection('Events').doc(event).collection("registeredStudents").doc(email).set({
+        uid:uid,
+        link:link
+      })
+      .then(() => {
+        db.collection('users').doc(uid).collection('eventsRegistered').doc(event).set({
+          registered: true,
+          link: true
+        })
+        .then(() => {
+          res.json({ token: 'done' })
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+  })
+  .catch(err => {
+    res.status(401).send('You are unauthorized to register for events. Verify your email first');
+  })
 })
 
 app.use(express.static(__dirname + '/public'));

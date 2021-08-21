@@ -27,7 +27,7 @@ figure {
     display: inline-block;
     background: $blue-color;
     color: #fff;
-    border-bottom: none;
+    border: none;
     width: auto;
     padding: 15px 39px;
     @include border-radius(5px);
