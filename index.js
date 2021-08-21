@@ -239,7 +239,7 @@ app.post('/registerEvents', (req, res) => {
             link: ""
           })
           .then(() => {
-            res.json({ token: 'done' })
+            res.status(200)
           })
           .catch(err => {
             console.log(err)
@@ -264,7 +264,6 @@ app.post('/uploadLinks', (req, res) => {
   const email = req.body.email
   const uid = req.body.uid
 
-  console.log(event, email, uid, link)
   admin
   .auth()
   .getUserByEmail(email)
