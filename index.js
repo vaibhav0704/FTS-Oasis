@@ -153,13 +153,11 @@ app.post('/getToken', (req, res) => {
 
 app.post('/getUser', (req, res) => {
   const idToken = req.body.idToken
-  console.log(1)
   let userInfo = {}
   admin
   .auth()
   .verifyIdToken(idToken)
   .then((decodedToken) => {
-    console.log(2)
     const uid = decodedToken.uid;
     const docReference = db.collection('users').doc(uid).collection('details').doc('details')
     docReference.get().then((doc) => {
@@ -173,32 +171,26 @@ app.post('/getUser', (req, res) => {
           userImgUrl: '',
           eventList: []
         }
-        console.log(3)
         db.collection('users').doc(uid).collection('profileImage').doc('imageUrl').get()
         .then((doc) => {
-          console.log(4)
           if(doc.exists) {
             userInfo.userImgUrl = doc.data().imgUrl
-            console.log(5)
             db.collection('users').doc(uid).collection('eventsRegistered').get()
                 .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     userInfo.eventList.push({"name": doc.id, "bool": doc.data(doc.id).link})
-                    console.log(doc.id)
 
                 });
               res.json(userInfo)
             });
                 
           }else {
-            console.log(6)
             userInfo.userImgUrl = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
             db.collection('users').doc(uid).collection('eventsRegistered').get()
                 .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                   userInfo.eventList.push({"name": doc.id, "bool": doc.data(doc.id).link})
                 });
-                console.log(userInfo)
               res.json(userInfo)
             });           
           }         
@@ -249,6 +241,9 @@ app.post('/registerEvents', (req, res) => {
           .then(() => {
             res.json({ token: 'done' })
           })
+          .catch(err => {
+            console.log(err)
+          })
         })
         .catch((error) => {
             console.error("Error writing document: ", error);
@@ -269,6 +264,7 @@ app.post('/uploadLinks', (req, res) => {
   const email = req.body.email
   const uid = req.body.uid
 
+  console.log(event, email, uid, link)
   admin
   .auth()
   .getUserByEmail(email)
@@ -279,8 +275,8 @@ app.post('/uploadLinks', (req, res) => {
         link:link
       })
       .then(() => {
-        db.collection('users').doc(uid).collection("registeredUsers").doc(email).set({
-          uid: uid,
+        db.collection('users').doc(uid).collection('eventsRegistered').doc(event).set({
+          registered: true,
           link: true
         })
         .then(() => {

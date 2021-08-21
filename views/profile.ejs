@@ -162,6 +162,7 @@
                    <!-- <div>
                     <button class="accordion">Section 1</button>
                     <div class="panel">
+                        text
                         <form id="linkForm">
                             
                             <input type="checkbox" name="check" value="" checked/>
@@ -199,24 +200,6 @@
 
     
       <script>
-        // Accordion
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-        
-        for (i = 0; i < acc.length; i++) {
-          acc[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.maxHeight) {
-              panel.style.maxHeight = null;
-            } else {
-              panel.style.maxHeight = panel.scrollHeight + "px";
-            } 
-          });
-        }
-        
-        //#Accordion
-
 
         function showProfile() {
             let icon = document.getElementById("profile-icon__overlay");
@@ -250,14 +233,16 @@
 
         var uid
         var email
+
+        
     
         firebase.auth().onAuthStateChanged(async (user) => {
             
             if (!user) {
+                
                 window.location.assign('/login')
             }
             else if(user.emailVerified === false) {
-                console.log(1)
                 firebase.auth().currentUser.sendEmailVerification()
                 .then(() => {
                     console.log('sent')
@@ -286,7 +271,6 @@
                     document.getElementById('userPhone').innerHTML = data.userPhone;           
                     document.getElementById('userRegNo').innerHTML = data.userRegNo;
                     document.getElementById('userProfile').src = data.userImgUrl;
-                    console.log(data.eventList)
                     if(data.userImgUrl != 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'){
                         document.getElementById('photoText').innerHTML = 'Change Photo'
                     }
@@ -294,69 +278,127 @@
                     uid = data.userUid;
                     data.eventList.forEach((eventName) => {
                         document.getElementById(eventName.name).style.display = 'none'
-                        const outerDiv = document.createElement('div')
-                        const acButton = document.createElement('button')
-                        acButton.setAttribute('class', 'accordion')
-                        acButton.innerHTML = eventName.name
-                        const inputDiv = document.createElement('div')
-                        inputDiv.setAttribute('class', 'panel')
-                        const form = document.createElement('form')
-                        form.setAttribute('id', 'linkForm')
-                        const input = document.createElement('input')
-                        input.setAttribute('type', 'url')
-                        input.setAttribute('name', 'linkInput')
-                        input.setAttribute('placeholder', 'Upload Your G-Drive Link')
-                        const checkInput = document.createElement('input')
-                        checkInput.setAttribute('type', 'checkbox')
-                        checkInput.setAttribute('name', 'check')
-                        checkInput.setAttribute('value', eventName.name)
-                        const uplButton = document.createElement('button')
-                        uplButton.setAttribute('class', 'btn-submit')
-                        uplButton.setAttribute('type', 'submit')
+                        if(!eventName.bool){
+                            const outerDiv = document.createElement('div')
+                            const acButton = document.createElement('button')
+                            acButton.setAttribute('class', 'accordion')
+                            acButton.innerHTML = eventName.name
+                            const inputDiv = document.createElement('div')
+                            inputDiv.setAttribute('class', 'panel')
+                            const form = document.createElement('form')
+                            form.setAttribute('class', 'linkForm')
+                            const input = document.createElement('input')
+                            input.setAttribute('type', 'url')
+                            input.setAttribute('name', 'linkInput')
+                            input.setAttribute('placeholder', 'Upload Your G-Drive Link')
+                            const checkInput = document.createElement('input')
+                            checkInput.setAttribute('type', 'checkbox')
+                            checkInput.setAttribute('name', 'check')
+                            checkInput.setAttribute('value', eventName.name)
 
-                        form.appendChild(input)
-                        form.appendChild(checkInput)
-                        form.appendChild(uplButton)
-                        inputDiv.appendChild(form)
-                        outerDiv.appendChild(acButton)
-                        outerDiv.appendChild(inputDiv)
+                            //  Hide Input Checkbox
+                            checkInput.style.display = 'none';
 
-                        document.getElementById('userRegEvents').appendChild(outerDiv);
+                            const uplButton = document.createElement('button')
+                            uplButton.setAttribute('class', 'btn-submit')
+                            uplButton.setAttribute('type', 'submit')
+                            // Added InnerHTML FOR Upload Button
+                            uplButton.innerHTML = 'Upload';
+
+                            form.appendChild(input)
+                            form.appendChild(checkInput)
+                            form.appendChild(uplButton)
+                            inputDiv.appendChild(form)
+                            outerDiv.appendChild(acButton)
+                            outerDiv.appendChild(inputDiv)
+
+                            document.getElementById('userRegEvents').appendChild(outerDiv);
+                        }else{
+                            const outerDiv = document.createElement('div')
+                            const acButton = document.createElement('button')
+                            acButton.setAttribute('class', 'accordion')
+                            acButton.innerHTML = eventName.name
+                            const inputDiv = document.createElement('div')
+                            inputDiv.setAttribute('class', 'panel')
+                            const para = document.createElement('p')
+                            const message = document.createTextNode('Congratulations you have uploaded the your link for this event!')
+
+                            outerDiv.appendChild(acButton)
+                            outerDiv.appendChild(inputDiv)
+                            para.appendChild(message)
+                            inputDiv.appendChild(para)
+                            document.getElementById('userRegEvents').appendChild(outerDiv);
+                        }
                     })
+                    var linkForm = document.querySelectorAll(".linkForm");
+                    for(const linkElement of linkForm){
+                        linkElement.addEventListener("submit", (event) => {
+                            event.preventDefault()
+                            const eventName = event.target.check.value;
+                            const link = event.target.linkInput.value;
+                            const uploadLink = async () => {
+                                const response = await fetch(
+                                '/uploadLinks',
+                                {
+                                    method: 'POST',
+                                    headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        event: eventName,
+                                        link,
+                                        email,
+                                        uid
+                                    })
+                                }
+                                );
+                                const resData = await response.json();
+                                if(resData.token === 'done') {
+                                    window.alert('That was a lot of work! well Done! link is uploaded')
+                                    window.location.reload();
+                                }
+                            }  
+                            uploadLink()          
+                        })
+                    }
                 }
                 getUserData();
             }
         })
 
-        document.getElementById('linkForm')?.addEventListener("submit", (event) => {
+        document.getElementById('eventForm').addEventListener("submit", (event) => {
             event.preventDefault()
-            const eventName = event.target.check.value;
-            const link = event.target.linkInput.value;
-            const uploadLink = async () => {
-                const response = await fetch(
-                '/uploadLinks',
-                {
+            const checkboxes = document.querySelectorAll('input[name="event"]:checked');
+            var events = [];
+            checkboxes.forEach((checkbox) => {
+                events.push(checkbox.value);
+            });
+            const registerEvents = async () => {
+                const resData = await fetch('/registerEvents', {
                     method: 'POST',
                     headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        event: eventName,
-                        link,
+                        uid,
+                        events: events,
                         email,
-                        uid
-                    })
+                    })                   
+                })
+                const data = await resData.json();
+                if(data.token === 'done'){
+                    console.log('done')
                 }
-                );
-                const resData = await response.json();
-                if(ressData.token === 'done') {
-                    window.alert('That was a lot of work! well Done! link is uploaded')
-                    window.location.reload();
-                }
-            }            
-        })
-      
+                
+            }
+            registerEvents()
+            window.alert('Yay you have successfully registered for the events! See ya there!')
+            window.location.reload()
+        });
+
+                    
 
         const signout = () => {
             firebase.auth().signOut().then(() => {
@@ -369,7 +411,38 @@
         const uploadImage = () => {
 
             window.alert('Uploading!')
-
+            var elements = document.getElementsByClassName('linkForm')
+    
+            elements.forEach((element) => {
+                element.addEventListener("submit", (event) => {
+                    event.preventDefault()
+                    const eventName = event.target.check.value;
+                    const link = event.target.linkInput.value;
+                    const uploadLink = async () => {
+                        const response = await fetch(
+                        '/uploadLinks',
+                        {
+                            method: 'POST',
+                            headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                event: eventName,
+                                link,
+                                email,
+                                uid
+                            })
+                        }
+                        );
+                        const resData = await response.json();
+                        if(ressData.token === 'done') {
+                            window.alert('That was a lot of work! well Done! link is uploaded')
+                            window.location.reload();
+                        }
+                    }            
+                })
+            })
             const ref = firebase.storage().ref()
             const file = document.getElementById("photo").files[0]                          
             
@@ -402,40 +475,6 @@
             })
             
         }
-
-        document.getElementById('eventForm').addEventListener("submit", (event) => {
-            console.log(1)
-            event.preventDefault()
-            const checkboxes = document.querySelectorAll('input[name="event"]:checked');
-            var events = [];
-            checkboxes.forEach((checkbox) => {
-                events.push(checkbox.value);
-            });
-            console.log(events)
-            const registerEvents = async () => {
-                console.log(email)
-                console.log(uid)
-                const resData = await fetch('/registerEvents', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        uid,
-                        events: events,
-                        email,
-                    })                   
-                })
-                const data = await resData.json();
-                if(data.token === 'done'){
-                    console.log('done')
-                }
-                
-            }
-            registerEvents()
-            window.alert('Yay you have successfully registered for the events! See ya there!')
-        });
       </script>
     </main>
   </body>

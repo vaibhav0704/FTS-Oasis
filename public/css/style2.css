@@ -378,7 +378,7 @@ input[type="checkbox"]:checked::before {
   Accordion
 ==================*/
 .accordion {
-    margin-top: 0.6em;
+    margin-top: 3em;
     background-color: #ffffff;
     color: black;
     cursor: pointer;
@@ -395,12 +395,12 @@ input[type="checkbox"]:checked::before {
     border-radius: 0.3em;
   }
   
-  .active, .accordion:hover,.accordion:focus {
+   .accordion:hover,.accordion:focus {
     background-color: #fff;
     outline: none;
 }
 
-.accordion:after {
+/* .accordion:after {
     content: '\002B';
     color: #777;
     font-weight: bold;
@@ -410,32 +410,44 @@ input[type="checkbox"]:checked::before {
 
 .active:after {
     content: "\2212";
-}
+} */
 
 .panel {
-    padding: 0 1em;
+    padding: 1em 0;
     background-color: #fff;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-
-    box-shadow: inset 0px 0px 9px 0px rgb(0 0 0 / 10%);
-
+    /* max-height: 0; */
+    /* overflow: hidden; */
+    /* transition: max-height 0.2s ease-out; */
+    box-shadow: 0px 0px 9px 0px rgb(0 0 0 / 10%);
     border-radius: 0.3em;
-  }
+}
 .panel form {
     display: flex;
     justify-content: center;
-
 }
-.panel form div {
+.panel form input {
+    padding: 0.2em 0.5em;
+    font-size: 0.8rem;
+    margin: 1em 1em 0.5em 0;
+    border-radius: 1.3em;
+    border-color: 1px solid #666;
+    outline: none;
+}
+.panel form input:focus,.panel form input:hover {
+    background-color: #ccc;
+}
+.panel form button {
+    margin-bottom: 0.5em;
+    margin-left: 1em;
+}
+/* .panel form div {
     margin: 1.4em 0;
     margin-right: 1em;
 }
 .panel form div input {
-    padding: 0.2em;
+    padding: 0.1em 0.2em;
     outline: none;
-}
+} */
 .btn-submit {
     /* min-width: 30%; */
     /* display: block; */
@@ -477,6 +489,8 @@ input[type="checkbox"]:checked::before {
 @media only screen and (max-width: 800px)
 {
     .section-left {
+        top: 0;
+        left: 0;
         z-index: 10000;
         min-width: 100vw;
         border-radius: 0;
