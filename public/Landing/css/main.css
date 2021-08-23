@@ -539,6 +539,10 @@ button:focus {
   background-color: var(--primary-color) !important;
 }
 
+.top-nav-collapse .navbar-brand a {
+  display: none;
+}
+
 /* TODO:
 .top-nav-collapse .navbar-nav .nav-link.active {
   color: #fff !important;
@@ -550,7 +554,7 @@ button:focus {
 
 .navbar-expand-lg .navbar-nav .nav-link {
   color: #fff;
-  padding: 0 22px;
+  padding: 0.7em 1.1em;
   margin-top: 20px;
   margin-bottom: 20px;
   line-height: 40px;
@@ -611,7 +615,7 @@ button:focus {
     top: 0;
   }
   .navbar-brand img {
-    width: 70%;
+   width: 100px;
   }
   #mobile-menu {
     display: none;
