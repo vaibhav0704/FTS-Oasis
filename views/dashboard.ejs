@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    yo
+
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-storage.js"></script>
+
+    <script>
+        var firebaseConfig = {
+
+            apiKey: "AIzaSyB9pUDdjM9PQ2NoZ0N48MV2tPbAaAjkzN0",
+        
+            authDomain: "fts-sample.firebaseapp.com",
+        
+            projectId: "fts-sample",
+        
+            storageBucket: "fts-sample.appspot.com",
+        
+            messagingSenderId: "1061571301851",
+        
+            appId: "1:1061571301851:web:f0c4ceb176440525a897fe",
+        
+            measurementId: "G-4X4CCBE7XZ"
+        
+          };
+        
+        
+    
+        firebase.initializeApp(firebaseConfig);
+    
+        const user = firebase.auth().currentUser
+
+        var uid
+        var email
+
+        
+    
+        firebase.auth().onAuthStateChanged(async (user) => {
+            if (!user) {
+                
+                window.location.assign('/login')
+            }
+            else if(user.emailVerified === false) {
+                firebase.auth().currentUser.sendEmailVerification()
+                .then(() => {
+                    console.log('sent')
+                }).catch((err) => {
+                    console.log(err)
+                    window.alert('Try loggin in again')
+                });
+                window.location.assign('/verifyEmail')
+            }
+            else{
+                const token = await user.getIdToken(true)
+                const getEventData = async () => {
+                    const response  = await fetch('/getEventsData', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            idToken: token
+                        }),
+                    })
+                    const data = await response.json()
+                    console.log(data)
+                }
+                getEventData();
+            }
+        })
+    </script>
+</body>
+</html>

@@ -44,6 +44,14 @@ app.get('/verifyEmail', (req, res) => {
   res.render('emailPage')
 })
 
+app.get("/admin/login", (req, res) => {
+  res.render('adminLogin')
+})
+
+app.get('/admin/dashboard', (req, res) => {
+  res.render('dashboard')
+})
+
 app.post('/createUser', (req, res) => {
   const email = req.body.email;
   const password = req.body.pass;
@@ -177,7 +185,9 @@ app.post('/getUser', (req, res) => {
             userInfo.userImgUrl = doc.data().imgUrl
             db.collection('users').doc(uid).collection('eventsRegistered').get()
                 .then((querySnapshot) => {
+                  console.log(querySnapshot)
                 querySnapshot.forEach((doc) => {
+                  console.log(doc.id)
                     userInfo.eventList.push({"name": doc.id, "bool": doc.data(doc.id).link})
 
                 });
@@ -188,7 +198,9 @@ app.post('/getUser', (req, res) => {
             userInfo.userImgUrl = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
             db.collection('users').doc(uid).collection('eventsRegistered').get()
                 .then((querySnapshot) => {
+                  console.log(querySnapshot)
                 querySnapshot.forEach((doc) => {
+                  console.log(doc.id)
                   userInfo.eventList.push({"name": doc.id, "bool": doc.data(doc.id).link})
                 });
               res.json(userInfo)
@@ -290,6 +302,46 @@ app.post('/uploadLinks', (req, res) => {
   .catch(err => {
     res.status(401).send('You are unauthorized to register for events. Verify your email first');
   })
+})
+
+app.post('/getEventsData', (req, res) => {
+  const idToken = req.body.idToken
+  const eventData = [];
+  admin
+  .auth()
+  .verifyIdToken(idToken)
+  .then((decodedToken) => {
+    const uid = decodedToken.uid
+    const docReference = db.collection('users').doc(uid).collection('details').doc('details')
+    docReference.get().then((doc) => {
+      if(doc.exists){
+        if(doc.data().role === 'ADMIN'){
+          db.collection('Events').get().then((querySnapshot) => {
+            console.log(querySnapshot)
+            querySnapshot.forEach((doc) => {
+              console.log(doc.id)
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        }
+        else{
+          res.status(402)
+        }
+      }
+      else{
+        res.status(401)
+      }
+    })
+    .catch((err) => {
+      console.log(2)
+      console.log(err)
+    })
+  })
+  .catch((error) => {
+    res.status(401).send('could not identify you please log in')
+  });
 })
 
 app.use(express.static(__dirname + '/public'));
