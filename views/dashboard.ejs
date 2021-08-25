@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/admincss/style.css">
+
+</head>
+<body>
+    <main> 
+        <button type="button" class="nav-button" onclick="showSidebar()"><i class="fa fa-bars"></i></button>
+        <div class="container">
+            <div class="section-left hide-nav">
+                <button type="button" class="nav-close-button" onclick="hideSidebar()"><i class="fa fa-times"></i></button>
+                <img src="/img/oasis_logo_white.png" alt="logo" class="section-left__logo">
+                <nav>
+                  <ul>
+                    <li><a href="index.html" class="active">Dashboard</a></li>
+                  </ul>
+              </nav>
+              <button type="button" class="btn-sign-out" onclick="signout()">Sign Out</button>
+            </div>
+            <div class="section-right">
+                <h1 class="grid-title">Registered Students</h1>
+                <div class="card-grid">
+                    <div class="card-grid__items" data-event_name="MelodySiesta">
+                        <h4 class="event-name">Melody Siesta</h4>
+                        <p id="MelodySiesta" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="DanceTillDawn">
+                        <h4 class="event-name">Dance Till Dawn</h4>
+                        <p id="DanceTillDawn" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="MrAndMrsFreshmen">
+                        <h4 class="event-name">Mr. & Miss Freshmen</h4>
+                        <p id="MrAndMrsFreshmen" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="StealTheSpotLight">
+                        <h4 class="event-name">Steal The Spotlight</h4>
+                        <p id="StealTheSpotLight" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="CanvasThrill">
+                        <h4 class="event-name">Canvas Thrill</h4>
+                        <p id="CanvasThrill" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="SpecialTalent">
+                        <h4 class="event-name">Special Talent</h4>
+                        <p id="SpecialTalent" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="ClickSnick">
+                        <h4 class="event-name">Photography: CLICKSNICK</h4>
+                        <p id="ClickSnick" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="VideoEditingCreativeFusion">
+                        <h4 class="event-name">Video Editing: Creative Fusion</h4>
+                        <p id="VideoEditingCreativeFusion" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="AnimationDesk">
+                        <h4 class="event-name">Animation Desk</h4>
+                        <p id="AnimationDesk" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="ProGraphix">
+                        <h4 class="event-name">Pro Graphix</h4>
+                        <p id="ProGraphix" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="CODTournament">
+                        <h4 class="event-name">COD Tournament</h4>
+                        <p id="CODTournament" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="Valorant">
+                        <h4 class="event-name">Valorant</h4>
+                        <p id="Valorant" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="PoeticTrails">
+                        <h4 class="event-name">(Poetry) Poetic Trails</h4>
+                        <p id="PoeticTrails" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="EssayInkYourImagination">
+                        <h4 class="event-name">Essay: Ink Your Imagination</h4>
+                        <p id="EssayInkYourImagination" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="MasterMinds">
+                        <h4 class="event-name">Technical Quiz: Master Minds</h4>
+                        <p id="MasterMinds" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="WebOMania">
+                        <h4 class="event-name">Coding: Web-O-Mania</h4>
+                        <p id="WebOMania" class="reg-users"></p>
+                    </div>
+                    <div class="card-grid__items" data-event_name="HackTheNoon">
+                        <h4 class="event-name">Hack-The-Noon</h4>
+                        <p id="HackTheNoon" class="reg-users"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script src="https://use.fontawesome.com/a86fe2c51f.js"></script>    
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-storage.js"></script>
+
+    <script>
+        let sideBar = document.querySelector(".section-left");
+        let navBtn = document.getElementsByClassName("nav-button");
+        function showSidebar() {
+            sideBar.classList.remove("hide-nav");
+        };
+        function hideSidebar() {
+            sideBar.classList.add("hide-nav");
+        }
+        var firebaseConfig = {
+
+            apiKey: "AIzaSyDBEvY6J88DhlPfUFs27CJdFqMflF9cu80",
+        
+            authDomain: "oasis-81f3e.firebaseapp.com",
+        
+            databaseURL: "https://oasis-81f3e-default-rtdb.asia-southeast1.firebasedatabase.app",
+        
+            projectId: "oasis-81f3e",
+        
+            storageBucket: "oasis-81f3e.appspot.com",
+        
+            messagingSenderId: "691297823995",
+        
+            appId: "1:691297823995:web:10ffd1fc1684882256545e",
+        
+            measurementId: "G-3ZGYCCQD6R"
+        
+          };
+        
+        
+    
+        firebase.initializeApp(firebaseConfig);
+    
+        const user = firebase.auth().currentUser
+
+        var uid
+        var email
+
+        
+    
+        firebase.auth().onAuthStateChanged(async (user) => {
+            if (!user) {
+                
+                window.location.assign('/login')
+            }
+            else if(user.emailVerified === false) {
+                firebase.auth().currentUser.sendEmailVerification()
+                .then(() => {
+                    console.log('sent')
+                }).catch((err) => {
+                    console.log(err)
+                    window.alert('Try loggin in again')
+                });
+                window.location.assign('/verifyEmail')
+            }
+            else{
+                const token = await user.getIdToken(true)
+                const getEventData = async () => {
+                    const response  = await fetch('/getEventsData', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            idToken: token
+                        }),
+                    })
+                    const data = await response.json()
+                    if(data.token){
+                        if(data.token === 'fail'){
+                            window.location.assign('/login')
+                        }
+                    }
+                    console.log(data)
+                    return data;
+                    
+                }
+                getEventData().then((data) => {
+                    data.map((event) => {
+                        document.getElementById(event.id).innerHTML = event.number
+                    })
+                });
+            }
+        })
+
+        let cardEl = document.getElementsByClassName("card-grid__items");
+        for (let i = 0; i < cardEl.length; i++) {
+            cardEl[i].addEventListener('click', () => {
+                let eventName = cardEl[i].getAttribute('data-event_name');
+                window.location.assign(`/admin/event/${eventName}`)
+            });
+        }
+
+        const signout = () => {
+            firebase.auth().signOut().then(() => {
+                window.location.assign('/')
+            }).catch((error) => {
+            console.log(error);
+            });
+        }
+    </script>
+</body>
+</html>

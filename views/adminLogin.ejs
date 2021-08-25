@@ -116,7 +116,7 @@
               .then(async (userCredential) => {
                 // Signed in
                 var user = userCredential.user;
-                window.location.assign('/profile')
+                window.location.assign('/admin/dashboard')
                 const token = await user.getIdToken();
               })
               .catch((error) => {

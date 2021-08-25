@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const { response } = require("express");
+const ejs = require("ejs");
 const express = require("express");
 const admin = require("firebase-admin");
 const bcrypt = require ('bcrypt');
@@ -42,6 +43,48 @@ app.get("/profile", function (req, res) {
 
 app.get('/verifyEmail', (req, res) => {
   res.render('emailPage')
+})
+
+app.get("/admin/login", (req, res) => {
+  res.render('adminLogin')
+})
+
+app.get('/admin/dashboard', (req, res) => {
+  res.render('dashboard')
+})
+
+app.get('/admin/event/:eventName', (req, res) => {  
+  const eventRoute = req.params.eventName;
+  const studentData = []
+  db.collection('Events').doc(eventRoute).collection('registeredStudents').get()
+  .then(async (querySnapshot) => {
+      try {
+        for(const doc of querySnapshot.docs){
+          const email = doc.id
+          const uid = doc.data(doc.id).uid
+          const link = doc.data(doc.id).link
+          const newDoc = await db.collection('users').doc(uid).collection('details').doc('details').get()
+          const registrationNo = newDoc.data().regNo
+          const name = newDoc.data().name
+          const phone = newDoc.data().phone
+          studentData.push({"regNo": registrationNo, "name": name, "phone": phone, "email": email, "link": link})
+          
+        }
+        res.render('table', {
+          'title': eventRoute,
+          'data': studentData,
+        })
+      }
+      catch(err){
+        console.log(err)
+      }   
+  })
+  
+
+})
+
+app.post('/admin/getEventData', (req, res) => {
+
 })
 
 app.post('/createUser', (req, res) => {
@@ -290,6 +333,55 @@ app.post('/uploadLinks', (req, res) => {
   .catch(err => {
     res.status(401).send('You are unauthorized to register for events. Verify your email first');
   })
+})
+
+app.post('/getEventsData', (req, res) => {
+  const idToken = req.body.idToken
+  const eventList = ['MelodySiesta','DanceTillDawn','MrAndMrsFreshmen', 'StealTheSpotlight', 'CanvasThrill','SpecialTalent',
+    'ClickSnick', 'VideoEditingCreativeFusion','AnimationDesk','ProGraphix', 'CODTournament','Valorant', 'PoeticTrails','EssayInkYourImagination',
+    'MasterMinds', 'WebOMania', 'HackTheNoon']
+  admin
+  .auth()
+  .verifyIdToken(idToken)
+  .then((decodedToken) => {
+    const uid = decodedToken.uid
+    const docReference = db.collection('users').doc(uid).collection('details').doc('details')
+    docReference.get().then((doc) => {
+      if(doc.exists){
+        if(doc.data().role === 'ADMIN'){
+          async function getEventData() {
+            try {
+                const eventData = [];
+        
+                await Promise.all(eventList.map(async event => {
+                    const querySnapshot = await db.collection('Events').doc(event)?.collection('registeredStudents')?.get();
+                    eventData.push({"id": event, "number": querySnapshot.size});
+                }));
+                
+                res.json(eventData);
+            } catch (exception) {
+              console.log(exception)
+            }
+        }
+        getEventData()
+
+        }
+        else{
+          res.json({ token: "fail" })
+        }
+      }
+      else{
+        res.status(401)
+      }
+    })
+    .catch((err) => {
+      console.log(2)
+      console.log(err)
+    })
+  })
+  .catch((error) => {
+    res.status(401).send('could not identify you please log in')
+  });
 })
 
 app.use(express.static(__dirname + '/public'));
