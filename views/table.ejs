@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <!-- <link href="css/font-awesome.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="/admincss/style.css">
+
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+
+</head>
+
+<body>
+    <main>
+        <button type="button" class="nav-button" onclick="showSidebar()"><i class="fa fa-bars"></i></button>
+        <div class="container">
+            <div class="section-left hide-nav">
+                <button type="button" class="nav-close-button" onclick="hideSidebar()"><i
+                        class="fa fa-times"></i></button>
+                <img src="/img/oasis_logo_white.png" alt="logo" class="section-left__logo">
+                <nav>
+                    <ul>
+                        <li><a href="index.html" class="active">Dashboard</a></li>
+                        <!-- <li class="profile-user">
+                        <img class="profile-user__img" id="userProfile" alt="profile">
+                    </li> -->
+                        <!-- <li class="choose_file">
+                        <span>Upload Image</span>
+                        <input onchange="uploadImage()" type="file" id="photo" name="profile-img" />
+                    </li>
+                    <li>
+                        <h6 id="userName"></h6>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope" style="display: inline-block;"></i><h6 id="userEmail"></h6>
+                    </li>
+                    <li>
+                        <i class="fa fa-mobile"></i>
+                        <h6 id="userPhone"></h5>
+                    </li>                   -->
+                    </ul>
+                </nav>
+                <button type="button" class="btn-sign-out" onclick="signout()">Sign Out</button>
+            </div>
+            <div class="section-right">
+                <h1 class="grid-title">User Details</h1>
+                <h2 class="user-event-name"><%= title %></h2>
+                <ul class="responsive-table">
+                    <li class="table-header">
+                      <div class="col col-1">Reg. No</div>
+                      <div class="col col-2">Name</div>
+                      <div class="col col-4">Email Id</div>
+                      <div class="col col-5">Phone</div>
+                      <div class="col col-7">File</div>
+                    </li>
+                    <% for(let i = 0; i<data.length; i++){ %>
+                        <li class="table-row">
+                            <div class="col col-1" ><%= data[i].regNo %></div>
+                            <div class="col col-2" ><%= data[i].name %></div>
+                            <div class="col col-4" ><%= data[i].email %></div>
+                            <div class="col col-5" ><%= data[i].phone %></div>
+                            <% if(data[i].link){ %>
+                                <div class="col col-7" ><a href="<%= data[i].link %>" target="_blank">Link</a></div>
+                            <% }else{ %>
+                                <div class="col col-7" ><a href="#">No Link</a></div>
+                            <% } %>
+                        </li> 
+                    <% } %>
+                                 
+                  </ul>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://use.fontawesome.com/a86fe2c51f.js"></script>    
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-storage.js"></script>
+
+    <script>
+        let sideBar = document.querySelector(".section-left");
+        let navBtn = document.getElementsByClassName("nav-button");
+        function showSidebar() {
+            sideBar.classList.remove("hide-nav");
+        };
+        function hideSidebar() {
+            sideBar.classList.add("hide-nav");
+        }
+
+        var firebaseConfig = {
+
+            apiKey: "AIzaSyB9pUDdjM9PQ2NoZ0N48MV2tPbAaAjkzN0",
+        
+            authDomain: "fts-sample.firebaseapp.com",
+        
+            projectId: "fts-sample",
+        
+            storageBucket: "fts-sample.appspot.com",
+        
+            messagingSenderId: "1061571301851",
+        
+            appId: "1:1061571301851:web:f0c4ceb176440525a897fe",
+        
+            measurementId: "G-4X4CCBE7XZ"
+        
+          };
+        
+        
+    
+        firebase.initializeApp(firebaseConfig);
+    
+        const user = firebase.auth().currentUser
+
+        var uid
+        var email
+
+        firebase.auth().onAuthStateChanged(async (user) => {
+            console.log(user.email)
+            if (!user) {
+                
+                window.location.assign('/login')
+            }
+            else if(user.email !== 'oasistechnicalfts@gmail.com'){
+                window.location.assign('/login')
+            }
+        }) 
+        
+        const signout = () => {
+            firebase.auth().signOut().then(() => {
+                window.location.assign('/')
+            }).catch((error) => {
+            console.log(error);
+            });
+        }
+    </script>
+</body>
+
+</html>

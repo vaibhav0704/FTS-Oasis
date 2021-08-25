@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const { response } = require("express");
+const ejs = require("ejs");
 const express = require("express");
 const admin = require("firebase-admin");
 const bcrypt = require ('bcrypt');
@@ -50,6 +51,40 @@ app.get("/admin/login", (req, res) => {
 
 app.get('/admin/dashboard', (req, res) => {
   res.render('dashboard')
+})
+
+app.get('/admin/event/:eventName', (req, res) => {  
+  const eventRoute = req.params.eventName;
+  const studentData = []
+  db.collection('Events').doc(eventRoute).collection('registeredStudents').get()
+  .then(async (querySnapshot) => {
+      try {
+        for(const doc of querySnapshot.docs){
+          const email = doc.id
+          const uid = doc.data(doc.id).uid
+          const link = doc.data(doc.id).link
+          const newDoc = await db.collection('users').doc(uid).collection('details').doc('details').get()
+          const registrationNo = newDoc.data().regNo
+          const name = newDoc.data().name
+          const phone = newDoc.data().phone
+          studentData.push({"regNo": registrationNo, "name": name, "phone": phone, "email": email, "link": link})
+          
+        }
+        res.render('table', {
+          'title': eventRoute,
+          'data': studentData,
+        })
+      }
+      catch(err){
+        console.log(err)
+      }   
+  })
+  
+
+})
+
+app.post('/admin/getEventData', (req, res) => {
+
 })
 
 app.post('/createUser', (req, res) => {
@@ -185,9 +220,7 @@ app.post('/getUser', (req, res) => {
             userInfo.userImgUrl = doc.data().imgUrl
             db.collection('users').doc(uid).collection('eventsRegistered').get()
                 .then((querySnapshot) => {
-                  console.log(querySnapshot)
                 querySnapshot.forEach((doc) => {
-                  console.log(doc.id)
                     userInfo.eventList.push({"name": doc.id, "bool": doc.data(doc.id).link})
 
                 });
@@ -198,9 +231,7 @@ app.post('/getUser', (req, res) => {
             userInfo.userImgUrl = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
             db.collection('users').doc(uid).collection('eventsRegistered').get()
                 .then((querySnapshot) => {
-                  console.log(querySnapshot)
                 querySnapshot.forEach((doc) => {
-                  console.log(doc.id)
                   userInfo.eventList.push({"name": doc.id, "bool": doc.data(doc.id).link})
                 });
               res.json(userInfo)
@@ -306,7 +337,9 @@ app.post('/uploadLinks', (req, res) => {
 
 app.post('/getEventsData', (req, res) => {
   const idToken = req.body.idToken
-  const eventData = [];
+  const eventList = ['MelodySiesta','DanceTillDawn','MrAndMrsFreshmen', 'StealTheSpotlight', 'CanvasThrill','SpecialTalent',
+    'ClickSnick', 'VideoEditingCreativeFusion','AnimationDesk','ProGraphix', 'CODTournament','Valorant', 'PoeticTrails','EssayInkYourImagination',
+    'MasterMinds', 'WebOMania', 'HackTheNoon']
   admin
   .auth()
   .verifyIdToken(idToken)
@@ -316,18 +349,25 @@ app.post('/getEventsData', (req, res) => {
     docReference.get().then((doc) => {
       if(doc.exists){
         if(doc.data().role === 'ADMIN'){
-          db.collection('Events').get().then((querySnapshot) => {
-            console.log(querySnapshot)
-            querySnapshot.forEach((doc) => {
-              console.log(doc.id)
-            })
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+          async function getEventData() {
+            try {
+                const eventData = [];
+        
+                await Promise.all(eventList.map(async event => {
+                    const querySnapshot = await db.collection('Events').doc(event)?.collection('registeredStudents')?.get();
+                    eventData.push({"id": event, "number": querySnapshot.size});
+                }));
+                
+                res.json(eventData);
+            } catch (exception) {
+              console.log(exception)
+            }
+        }
+        getEventData()
+
         }
         else{
-          res.status(402)
+          res.json({ token: "fail" })
         }
       }
       else{
