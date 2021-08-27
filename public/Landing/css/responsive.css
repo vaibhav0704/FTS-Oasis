@@ -43,7 +43,7 @@
   #hero-area .contents h1 {
     font-size: 2rem;
     line-height: 30px;
-    margin-bottom: 4em;
+    /* margin-bottom: 4em; */
   }
   #hero-area .contents h4 {
     font-size: 1rem;
@@ -55,6 +55,10 @@
     display: block;
     margin: 0 auto;
     margin-bottom: 1.5em;
+  }
+  .card-offer {
+    justify-content: center;
+    transform-origin: initial;
   }
   #features .show-box img {
     display: none;

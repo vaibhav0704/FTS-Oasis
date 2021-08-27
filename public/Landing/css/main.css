@@ -1,4 +1,4 @@
-/* ------------------------------------- */
+  /* ------------------------------------- */
 /* TABLE OF CONTENTS
 /* -------------------------------------
   1. IMPORT GOOGLE FONTS
@@ -461,6 +461,45 @@ button:focus {
 #hero-area .btn-register:hover {
   background-color: var(--primary-color);
   border-color: transparent;
+}
+
+.card-offer {
+  text-decoration: none;
+  transition: 0.3s;
+  cursor: pointer;
+  position: relative;
+  bottom: 10%;
+  margin: auto;
+  height: 70px;
+  /* margin-bottom: 2em; */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  animation: pop-up 2s infinite;
+  transform-origin: right;
+}
+.card-offer a {
+  background-color: white;
+  padding: 1em 1.5em;
+  border-radius: 2em;
+}
+.card-offer a:hover {
+  color: red;
+}
+
+@keyframes pop-up {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
 }
 /* #hero-area .contents p {
   font-size: 14px;
