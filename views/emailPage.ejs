@@ -145,7 +145,7 @@
             const resend = () => {
                 firebase.auth().currentUser.sendEmailVerification()
                 .then(() => {
-                    window.alert("Another Veroification email has been sent you!")
+                    window.alert("Another Verification email has been sent you!")
                     window.location.assign('/verifyEmail')
                 }).catch((err) => {
                     console.log(err)
