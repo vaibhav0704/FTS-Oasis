@@ -22,6 +22,31 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+
+  <style>
+    .warning-container {
+      background-color: rgb(247, 77, 77);
+      align-items: center;
+      text-align: center;
+      margin: 10px auto;
+      width: 42%;
+      padding: 0;
+      border-radius: 20px;
+    }
+    .warning-message {
+      color: white;
+    }
+    span{
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .warning-container {
+        width: 100%;
+        border-radius: 15px;
+      }
+    }
+  </style>
 </head>
   <body>
     <main> 
@@ -57,6 +82,10 @@
             </nav>
           </div>
           <div class="section-right">
+            <div class='warning-container'>
+                <p class='warning-message'><span>Warning</span>: Today is the last day to submit your google drive link for your respective events</p>
+              </div>
+        
               <div class="certEvent">
 
                   <form id="eventForm">
