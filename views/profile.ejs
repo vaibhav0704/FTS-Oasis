@@ -46,6 +46,12 @@
         border-radius: 15px;
       }
     }
+
+    .warnElement {
+        margin: 5px auto !important; 
+        font-size: 12px;
+        color:rgb(247, 77, 77)
+    }
   </style>
 </head>
   <body>
@@ -326,6 +332,10 @@
                             input.setAttribute('name', 'linkInput')
                             input.setAttribute('required', true)
                             input.setAttribute('placeholder', 'Upload Your G-Drive Link')
+                            const warning = document.createElement('p')
+                            warning.setAttribute('class', 'warnElement')
+                            const warnNode = document.createTextNode('Make sure the G-Drive link has public access')
+                            warning.appendChild(warnNode)
                             const checkInput = document.createElement('input')
                             checkInput.setAttribute('type', 'checkbox')
                             checkInput.setAttribute('name', 'check')
@@ -344,6 +354,7 @@
                             form.appendChild(checkInput)
                             form.appendChild(uplButton)
                             inputDiv.appendChild(form)
+                            inputDiv.appendChild(warning)
                             outerDiv.appendChild(acButton)
                             outerDiv.appendChild(inputDiv)
 
